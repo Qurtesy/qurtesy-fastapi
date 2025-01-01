@@ -1,0 +1,11 @@
+FROM python:3.12
+
+WORKDIR /code/ms3
+
+COPY ./requirements.txt /code/ms3/requirements.txt
+
+RUN pip install --no-cache-dir --upgrade -r /code/ms3/requirements.txt
+
+COPY ./ms3 /code/ms3/app
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8003"]
