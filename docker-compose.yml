@@ -1,0 +1,30 @@
+volumes:
+  qurtesy-data:
+
+
+networks:
+  qurtesy-network:
+    driver: bridge
+
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    shm_size: 128mb
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
+  code:
+    build: .
+    ports:
+      - "8000:8000"
