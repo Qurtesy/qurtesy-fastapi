@@ -1,8 +1,6 @@
-from typing import Union
-
 from fastapi import FastAPI
-from app.routers import accounts, categories, transactions
-from app.internal import admin
+from code.routers import accounts, categories, transactions
+from code.internal import admin
 
 app = FastAPI()
 

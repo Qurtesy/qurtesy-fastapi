@@ -20,6 +20,14 @@ services:
       - ./db_static:/var/lib/postgresql/data
       - ./dataset:/docker-entrypoint-initdb.d
 
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+
   code:
     container_name: qurtesy_code
     build: ./code
