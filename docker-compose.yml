@@ -8,6 +8,7 @@ networks:
 
 services:
   db:
+    container_name: qurtesy_postgre
     image: postgres
     restart: unless-stopped
     shm_size: 128mb
@@ -15,16 +16,14 @@ services:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: example
-
-  adminer:
-    image: adminer
-    restart: unless-stopped
-    ports:
-      - 8080:8080
-    depends_on:
-      - db
+    volumes:
+      - ./db_static:/var/lib/postgresql/data
+      - ./dataset:/docker-entrypoint-initdb.d
 
   code:
-    build: .
+    container_name: qurtesy_code
+    build: ./code
     ports:
       - "8000:8000"
+    depends_on:
+      - db
