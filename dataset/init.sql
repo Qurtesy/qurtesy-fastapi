@@ -27,7 +27,7 @@ INSERT INTO finance.accounts (value) VALUES ('Investments');
 
 CREATE TABLE IF NOT EXISTS finance.transactions (
     id SERIAL PRIMARY KEY,
-    date TEXT NOT NULL,
+    date DATE NOT NULL,
     amount DECIMAL(10,2),
     category INTEGER NOT NULL,
     account INTEGER NOT NULL,

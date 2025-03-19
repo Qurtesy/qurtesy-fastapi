@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from .config import db_url
 
 # Create the SQLAlchemy engine
-engine = create_engine(db_url)
+engine = create_engine(db_url, connect_args={"options": "-csearch_path=qurtesy"})
 
 # Create a session factory
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

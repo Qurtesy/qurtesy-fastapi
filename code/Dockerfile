@@ -1,5 +1,8 @@
 FROM python:3.12
 
+LABEL "com.qurtesy.finance"="Qurtesy"
+LABEL version="1.0"
+
 WORKDIR /code
 
 COPY ./requirements.txt /code/requirements.txt
