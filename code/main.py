@@ -11,4 +11,4 @@ app.include_router(transactions.router)
 
 @app.get("/")
 async def root():
-    return {"message": "Hello Bigger Applications!"}
+    return {"message": "Hello, welcome to finance by Qurtesy!"}

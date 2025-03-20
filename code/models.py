@@ -8,8 +8,8 @@ class Category(Base):
     __table_args__ = {"schema": "finance"}
 
     id = Column(Integer, primary_key=True, index=True)
-    value = Column(String, nullable=False)
-    emoji = Column(Float, nullable=False)
+    value = Column(String, nullable=False, unique=True)
+    emoji = Column(String)
 
     transactions = relationship("Transaction", back_populates="category_rel")
 
@@ -19,7 +19,7 @@ class Account(Base):
     __table_args__ = {"schema": "finance"}
 
     id = Column(Integer, primary_key=True, index=True)
-    value = Column(String, nullable=False)
+    value = Column(String, nullable=False, unique=True)
 
     transactions = relationship("Transaction", back_populates="account_rel")
 

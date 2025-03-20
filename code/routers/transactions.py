@@ -1,11 +1,13 @@
-from fastapi import APIRouter, Depends, Query, Body
+from fastapi import APIRouter, Depends, Query, Body, HTTPException
 from typing import List, Dict
 from datetime import date
-from sqlalchemy import text
+import calendar
+from sqlalchemy import and_
 from sqlalchemy.orm import Session
+from sqlalchemy.exc import IntegrityError
 from code.database import get_db
 from code.models import Transaction
-from code.schemas import TransactionCreate
+from code.schemas import TransactionCreate, TransactionUpdate
 
 router = APIRouter()
 
@@ -16,39 +18,25 @@ def get_transactions(yearmonth: str = Query(
         regex="^\d{4}-\d{2}$", 
         description="Format: YYYY-MM (defaults to current month)"
     ), db: Session = Depends(get_db)):
-    # transactions = db.query(Transaction).all()
-    # return [
-    #     {"id": t.id, "date": t.date, "amount": t.amount, "category": t.category, "account": t.account}
-    #     for t in transactions
-    # ]
-    """
-    Fetch transactions for a given month using the provided SQL query.
-    Example input: yearmonth="2025-03"
-    """
-    query = text(f"""
-        SELECT
-            t.date,
-            t.amount,
-            c.value AS category,
-            c.emoji AS category_emoji,
-            a.value AS account
-        FROM finance.transactions t
-        JOIN finance.categories c ON t.category = c.id
-        JOIN finance.accounts a ON t.account = a.id
-        WHERE date >= date(:start_date) AND date <= date(:end_date)
-        ORDER BY date;
-    """)
-
+    # Fetch transactions for a given month using the provided SQL query.
+    # Example input: yearmonth="2025-03"
     start_date = f"{yearmonth}-01"
-    end_date = f"{yearmonth}-31"
-
-    result = db.execute(query, {"start_date": start_date, "end_date": end_date}).fetchall()
-
+    weekday, lastdate = calendar.monthrange(int(yearmonth[:4]), int(yearmonth[5:]))
+    end_date = f"{yearmonth}-{lastdate}"
+    transactions = (
+        db.query(Transaction)
+        .filter(and_(Transaction.date >= start_date, Transaction.date <= end_date))
+        .all()
+    )
     return [
-        {"date": row.date, "amount": row.amount, "category": row.category, "category_emoji": row.category_emoji, "account": row.account}
-        for row in result
+        {
+            "id": t.id,
+            "date": t.date,
+            "amount": t.amount,
+            "category": t.category_rel.value,
+            "account": t.account_rel.value
+        } for t in transactions
     ]
-
 
 @router.post("/transactions/")
 def create_transaction(transaction: TransactionCreate = Body(...), db: Session = Depends(get_db)):
@@ -62,3 +50,44 @@ def create_transaction(transaction: TransactionCreate = Body(...), db: Session =
     db.commit()
     db.refresh(new_transaction)
     return new_transaction
+
+@router.put("/transactions/{transaction_id}")
+def update_transaction(transaction_id: int, transaction_data: TransactionUpdate = Body(...), db: Session = Depends(get_db)):
+    transaction = db.query(Transaction).filter(Transaction.id == transaction_id).first()
+
+    if not transaction:
+        raise HTTPException(status_code=404, detail="Transaction not found")
+
+    # Update fields
+    if transaction_data.date:
+        transaction.date = transaction_data.date
+    if transaction_data.amount:
+        transaction.amount = transaction_data.amount
+    if transaction_data.category:
+        transaction.category = transaction_data.category
+    if transaction_data.account:
+        transaction.account = transaction_data.account
+
+    db.commit()
+    db.refresh(transaction)
+
+    return {"message": "Transaction updated successfully"}
+
+@router.delete("/transactions/{transaction_id}", response_model=dict)
+def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
+    transaction = db.query(Transaction).filter(Transaction.id == transaction_id).first()
+    
+    if not transaction:
+        raise HTTPException(status_code=404, detail="Transaction not found")
+
+    try:
+        db.delete(transaction)
+        db.commit()
+        return {"message": "Transaction deleted successfully"}
+
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=400, 
+            detail="Cannot delete transaction as it is linked to existing transactions"
+        )
