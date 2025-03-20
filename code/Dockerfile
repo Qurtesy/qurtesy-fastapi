@@ -5,9 +5,9 @@ LABEL version="1.0"
 
 WORKDIR /code
 
-COPY ./requirements.txt /code/requirements.txt
+COPY ./_requirements /code/_requirements
 
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/_requirements/dev.txt
 
 COPY . /code
 
