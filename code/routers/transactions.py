@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, Query, Body, HTTPException
-from typing import List, Dict
+from typing import List, Dict, Optional
 from datetime import date, datetime
 import calendar
 from pydantic import BaseModel
@@ -7,7 +7,7 @@ from sqlalchemy import and_, desc, func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from code.database import get_db
-from code.models import Transaction
+from code.models import Transaction, SectionEnum
 from code.schemas import TransactionCreate, TransactionUpdate
 from code.utils.datetime import format_date
 
@@ -16,11 +16,17 @@ router = APIRouter()
 
 # API Route to Fetch Transactions
 @router.get("/transactions/", response_model=List[Dict])
-def get_transactions(yearmonth: str = Query(
+def get_transactions(
+    yearmonth: str = Query(
         date.today().strftime("%Y-%m"),
         regex="^\d{4}-\d{2}$", 
         description="Format: YYYY-MM (defaults to current month)"
-    ), db: Session = Depends(get_db)):
+    ),
+    section: Optional[SectionEnum] = Query(
+        None, description="Filter transactions by section (EXPENSE or INCOME)"
+    ),
+    db: Session = Depends(get_db)
+):
     # Fetch transactions for a given month using the provided SQL query.
     # Example input: yearmonth="2025-03"
     start_date = f"{yearmonth}-01"
@@ -28,7 +34,7 @@ def get_transactions(yearmonth: str = Query(
     end_date = f"{yearmonth}-{lastdate}"
     transactions = (
         db.query(Transaction)
-        .filter(and_(Transaction.date >= start_date, Transaction.date <= end_date))
+        .filter(and_(Transaction.date >= start_date, Transaction.date <= end_date, Transaction.section == section))
         .order_by(desc(Transaction.date), desc(Transaction.id))
         .all()
     )
