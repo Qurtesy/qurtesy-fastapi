@@ -81,6 +81,7 @@ def update_transaction(transaction_id: int, transaction_data: TransactionUpdate 
         transaction.category = transaction_data.category
     if transaction_data.account:
         transaction.account = transaction_data.account
+    
 
     db.commit()
     db.refresh(transaction)
