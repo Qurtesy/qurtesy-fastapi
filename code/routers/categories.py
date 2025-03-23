@@ -10,7 +10,11 @@ router = APIRouter()
 
 @router.get("/categories/", tags=["categories"])
 async def read_categories(db: Session = Depends(get_db)):
-    categories = db.query(Category).all()
+    categories = (
+        db.query(Category)
+        .order_by(Category.id)
+        .all()
+    )
     return [
         {
             "id": c.id,

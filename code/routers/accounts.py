@@ -10,7 +10,11 @@ router = APIRouter()
 
 @router.get("/accounts/", tags=["accounts"])
 async def read_accounts(db: Session = Depends(get_db)):
-    accounts = db.query(Account).all()
+    accounts = (
+        db.query(Account)
+        .order_by(Account.id)
+        .all()
+    )
     return [
         {
             "id": c.id,

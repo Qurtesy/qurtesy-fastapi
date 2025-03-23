@@ -23,6 +23,7 @@ class Account(Base):
 
     transactions = relationship("Transaction", back_populates="account_rel")
 
+
 class Transaction(Base):
     __tablename__ = "transactions"
     __table_args__ = {"schema": "finance"}

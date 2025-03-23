@@ -1,5 +1,5 @@
-from pydantic import BaseModel, Field
-from datetime import date as datetype
+from datetime import datetime
+from pydantic import BaseModel, Field, validator
 
 class CategoryCreate(BaseModel):
     value: str = Field(..., description="Category name (must be a meaningful text)")
@@ -20,14 +20,28 @@ class AccountUpdate(BaseModel):
 
 
 class TransactionCreate(BaseModel):
-    date: datetype = Field(..., description="Transaction date in YYYY-MM-DD format")
+    date: str = Field(..., description="Transaction date in DD/MM/YYYY format")
     amount: float = Field(..., gt=0, description="Transaction amount (must be greater than 0)")
-    category: int = Field(..., gt=0, description="Category ID (must be a positive integer)")
-    account: int = Field(..., gt=0, description="Account ID (must be a positive integer)")
+    category: int = Field(..., description="Category ID")
+    account: int = Field(..., description="Account ID")
+
+    @validator("date")
+    def parse_date(cls, value):
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Date format must be DD/MM/YYYY")
 
 
 class TransactionUpdate(BaseModel):
-    date: datetype = Field(None, description="Transaction date in YYYY-MM-DD format")
+    date: str = Field(None, description="Transaction date in DD/MM/YYYY format")
     amount: float = Field(None, gt=0, description="Transaction amount (must be greater than 0)")
     category: int = Field(None, gt=0, description="Category ID (must be a positive integer)")
     account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
+
+    @validator("date")
+    def parse_date(cls, value):
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Date format must be DD/MM/YYYY")
