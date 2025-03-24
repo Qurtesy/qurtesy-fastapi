@@ -1,8 +1,11 @@
 import os
 import csv
+from datetime import date
+from enum import Enum
 from sqlalchemy.orm import Session
 from code.models import Base, Account, Category, Transaction  # Import your models
 from code.database import get_db
+from code.utils.datetime import format_date
 
 # CSV file paths
 CSV_FILES = {
@@ -21,9 +24,9 @@ def export_data():
     db: Session = next(get_db())
 
     tables = {
-        "accounts": (Account, ["id", "value"]),
-        "categories": (Category, ["id", "value", "emoji"]),
-        "transactions": (Transaction, ["id", "date", "amount", "category", "account"]),
+        "accounts": (Account, ["value", "section"]),
+        "categories": (Category, ["value", "emoji", "section"]),
+        "transactions": (Transaction, ["date", "amount", "section", "category_rel", "account_rel"]),
     }
 
     # Export Tables
@@ -35,6 +38,17 @@ def export_data():
             writer.writerow(columns)  # Write headers
 
             for row in db.query(model).all():
-                writer.writerow([getattr(row, col) for col in columns])  # Write data
+                line = []
+                for col in columns:
+                    if type(getattr(row, col)) == Category or type(getattr(row, col)) == Account:
+                        line.append(getattr(getattr(row, col), 'value'))
+                    # Enums
+                    elif isinstance(getattr(row, col), Enum):
+                        line.append(getattr(getattr(row, col), 'value'))
+                    elif type(getattr(row, col)) == date:
+                        line.append(format_date(getattr(row, col)))
+                    else:
+                        line.append(str(getattr(row, col)))
+                writer.writerow(line)  # Write data
 
         print(f"✅ Exported {table_name} to {file_path}")

@@ -1,6 +1,6 @@
-id,value,emoji
-4,Education,📘
-3,Transports,🚃
-2,Payments,💸
-1,Gift,🧸
-5,Entertainment,🎮
+value,emoji,section
+Education,📘,EXPENSE
+Transports,🚃,EXPENSE
+Payments,💸,EXPENSE
+Gift,🧸,EXPENSE
+Entertainment,🎮,EXPENSE

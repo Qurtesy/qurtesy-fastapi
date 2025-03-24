@@ -7,7 +7,7 @@ from sqlalchemy import and_, desc, func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from code.database import get_db
-from code.models import Transaction, SectionEnum
+from code.models import SectionEnum, Transaction
 from code.schemas import TransactionCreate, TransactionUpdate
 from code.utils.datetime import format_date
 
@@ -17,13 +17,13 @@ router = APIRouter()
 # API Route to Fetch Transactions
 @router.get("/transactions/", response_model=List[Dict])
 def get_transactions(
+    section: SectionEnum = Query(
+        None, description="Filter transactions by section (EXPENSE or INCOME)"
+    ),
     yearmonth: str = Query(
         date.today().strftime("%Y-%m"),
         regex="^\d{4}-\d{2}$", 
         description="Format: YYYY-MM (defaults to current month)"
-    ),
-    section: Optional[SectionEnum] = Query(
-        None, description="Filter transactions by section (EXPENSE or INCOME)"
     ),
     db: Session = Depends(get_db)
 ):
@@ -58,10 +58,17 @@ def get_transactions(
     ]
 
 @router.post("/transactions/")
-def create_transaction(transaction: TransactionCreate = Body(...), db: Session = Depends(get_db)):
+def create_transaction(
+    section: SectionEnum = Query(
+        None, description="Filter transactions by section (EXPENSE or INCOME)"
+    ),
+    transaction: TransactionCreate = Body(...),
+    db: Session = Depends(get_db)
+):
     new_transaction = Transaction(
         date=transaction.date,
         amount=transaction.amount,
+        section=section,
         category=transaction.category,
         account=transaction.account
     )

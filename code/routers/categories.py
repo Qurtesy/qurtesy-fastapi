@@ -1,17 +1,24 @@
-from fastapi import APIRouter, Depends, Body, HTTPException
+from fastapi import APIRouter, Depends, Query, Body, HTTPException
+from typing import List, Dict, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from code.database import get_db
-from code.models import Category
+from code.models import SectionEnum, Category
 from code.schemas import CategoryCreate, CategoryUpdate
 
 router = APIRouter()
 
 
 @router.get("/categories/", tags=["categories"])
-async def read_categories(db: Session = Depends(get_db)):
+async def read_categories(
+    section: SectionEnum = Query(
+        None, description="Filter transactions by section (EXPENSE or INCOME)"
+    ),
+    db: Session = Depends(get_db)
+):
     categories = (
         db.query(Category)
+        .filter(Category.section == section)
         .order_by(Category.id)
         .all()
     )
@@ -24,7 +31,13 @@ async def read_categories(db: Session = Depends(get_db)):
     ]
 
 @router.post("/categories/")
-def create_category(category: CategoryCreate = Body(...), db: Session = Depends(get_db)):
+def create_category(
+    section: SectionEnum = Query(
+        None, description="Filter transactions by section (EXPENSE or INCOME)"
+    ),
+    category: CategoryCreate = Body(...),
+    db: Session = Depends(get_db)
+):
     # Check for uniqueness constraints
     if (
         db.query(Category).filter(Category.value == category.value).first()
@@ -34,7 +47,8 @@ def create_category(category: CategoryCreate = Body(...), db: Session = Depends(
 
     new_category = Category(
         value=category.value,
-        emoji=category.emoji
+        emoji=category.emoji,
+        section=section
     )
     db.add(new_category)
     db.commit()

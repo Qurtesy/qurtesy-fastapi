@@ -24,11 +24,14 @@ def import_data():
     db: Session = next(get_db())
 
     tables = {
-        "accounts.csv": (Account, ["id", "value"]),
-        "categories.csv": (Category, ["id", "value", "emoji"]),
-        "transactions.csv": (Transaction, ["id", "date", "amount", "section", "category", "account"]),
+        # Parent tables
+        "accounts.csv": (Account, ["value", "section"]),
+        "categories.csv": (Category, ["value", "emoji", "section"]),
+        # Child tables
+        "transactions.csv": (Transaction, ["date", "amount", "section", "category", "account"]),
     }
 
+    model_map = {}
     for file_name, (model, columns) in tables.items():
         file_path = os.path.join(DUMP_DIR, file_name)
 
@@ -41,8 +44,17 @@ def import_data():
             headers = next(reader)  # Skip the header row
 
             for row in reader:
-                row_data = {col: val for col, val in zip(columns, row)}
+                row_data = {}
+                for col, val in zip(columns, row):
+                    if col == 'category':
+                        row_data[col] = model_map[f'Category:{row}']
+                    if col == 'account':
+                        row_data[col] = model_map[f'Account:{row}']
+                    else:
+                        row_data[col] = val
                 db.add(model(**row_data))
 
         db.commit()
-        print(f"✅ Imported data from {file_name} successfully.")
+        for c in db.query(model).all():
+            model_map[f'{model}:{c.value}'] = c.id
+        print(f"✅ Imported data to parent table {model} from {file_name} successfully.")

@@ -1,17 +1,24 @@
-from fastapi import APIRouter, Depends, Body, HTTPException
+from fastapi import APIRouter, Depends, Query, Body, HTTPException
+from typing import List, Dict, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from code.database import get_db
-from code.models import Account
+from code.models import SectionEnum, Account
 from code.schemas import AccountCreate, AccountUpdate
 
 router = APIRouter()
 
 
-@router.get("/accounts/", tags=["accounts"])
-async def read_accounts(db: Session = Depends(get_db)):
+@router.get("/accounts/", response_model=List[Dict])
+async def read_accounts(
+    section: SectionEnum = Query(
+        None, description="Filter transactions by section (EXPENSE or INCOME)"
+    ),
+    db: Session = Depends(get_db)
+):
     accounts = (
         db.query(Account)
+        .filter(Account.section == section)
         .order_by(Account.id)
         .all()
     )
@@ -22,12 +29,14 @@ async def read_accounts(db: Session = Depends(get_db)):
         } for c in accounts
     ]
 
-@router.get("/accounts/{id}", tags=["accounts"])
-async def read_account():
-    return {"name": "Accounts"}
-
 @router.post("/accounts/", tags=["accounts"])
-async def create_account(account: AccountCreate = Body(...), db: Session = Depends(get_db)):
+async def create_account(
+    section: SectionEnum = Query(
+        None, description="Filter transactions by section (EXPENSE or INCOME)"
+    ),
+    account: AccountCreate = Body(...),
+    db: Session = Depends(get_db)
+):
     # Check for uniqueness constraints
     if (
         db.query(Account).filter(Account.value == account.value).first()
@@ -35,7 +44,8 @@ async def create_account(account: AccountCreate = Body(...), db: Session = Depen
         raise HTTPException(status_code=400, detail="Value must be unique")
 
     new_account = Account(
-        value=account.value
+        value=account.value,
+        section=section
     )
     db.add(new_account)
     db.commit()

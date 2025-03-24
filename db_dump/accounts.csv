@@ -1,5 +1,5 @@
-id,value
-1,Cash
-2,Accounts
-3,Cards
-4,Investments
+value,section
+Cash,EXPENSE
+Accounts,EXPENSE
+Cards,EXPENSE
+Investments,EXPENSE
