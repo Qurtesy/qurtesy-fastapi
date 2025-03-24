@@ -25,7 +25,7 @@ def import_data():
 
     tables = {
         # Parent tables
-        "accounts.csv": (Account, ["value", "section"]),
+        "accounts.csv": (Account, ["value"]),
         "categories.csv": (Category, ["value", "emoji", "section"]),
         # Child tables
         "transactions.csv": (Transaction, ["date", "amount", "section", "category", "account"]),
@@ -46,15 +46,15 @@ def import_data():
             for row in reader:
                 row_data = {}
                 for col, val in zip(columns, row):
-                    if col == 'category':
-                        row_data[col] = model_map[f'Category:{row}']
-                    if col == 'account':
-                        row_data[col] = model_map[f'Account:{row}']
-                    else:
-                        row_data[col] = val
+                    row_data[col] = val
+                # Map unique field value to id
+                if model == Transaction:
+                    row_data['category'] = model_map[f'{Category.__name__}:{row_data['category']}']
+                    row_data['account'] = model_map[f'{Account.__name__}:{row_data['account']}']
                 db.add(model(**row_data))
 
         db.commit()
-        for c in db.query(model).all():
-            model_map[f'{model}:{c.value}'] = c.id
+        if model == Category or model == Account:
+            for r in db.query(model).all():
+                model_map[f'{model.__name__}:{r.value}'] = r.id
         print(f"✅ Imported data to parent table {model} from {file_name} successfully.")

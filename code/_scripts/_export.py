@@ -1,6 +1,5 @@
 import os
 import csv
-from datetime import date
 from enum import Enum
 from sqlalchemy.orm import Session
 from code.models import Base, Account, Category, Transaction  # Import your models
@@ -24,7 +23,7 @@ def export_data():
     db: Session = next(get_db())
 
     tables = {
-        "accounts": (Account, ["value", "section"]),
+        "accounts": (Account, ["value"]),
         "categories": (Category, ["value", "emoji", "section"]),
         "transactions": (Transaction, ["date", "amount", "section", "category_rel", "account_rel"]),
     }
@@ -45,8 +44,6 @@ def export_data():
                     # Enums
                     elif isinstance(getattr(row, col), Enum):
                         line.append(getattr(getattr(row, col), 'value'))
-                    elif type(getattr(row, col)) == date:
-                        line.append(format_date(getattr(row, col)))
                     else:
                         line.append(str(getattr(row, col)))
                 writer.writerow(line)  # Write data

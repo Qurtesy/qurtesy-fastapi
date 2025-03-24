@@ -122,9 +122,18 @@ def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
 
 @router.get("/transactions/summary", response_model=Dict)
 def summary_transactions(db: Session = Depends(get_db)):
-    balance = db.query(func.sum(Transaction.amount)).scalar()
+    income = (
+        db.query(func.sum(Transaction.amount))
+        .filter(Transaction.section == SectionEnum.INCOME)
+        .scalar()
+    )
+    expense = (
+        db.query(func.sum(Transaction.amount))
+        .filter(Transaction.section == SectionEnum.EXPENSE)
+        .scalar()
+    )
     return {
-        "balance": balance or 0,
-        "expense": balance,
-        "income": 0
+        "balance": income - expense,
+        "expense": expense,
+        "income": income
     }

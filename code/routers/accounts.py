@@ -11,14 +11,10 @@ router = APIRouter()
 
 @router.get("/accounts/", response_model=List[Dict])
 async def read_accounts(
-    section: SectionEnum = Query(
-        None, description="Filter transactions by section (EXPENSE or INCOME)"
-    ),
     db: Session = Depends(get_db)
 ):
     accounts = (
         db.query(Account)
-        .filter(Account.section == section)
         .order_by(Account.id)
         .all()
     )
@@ -31,9 +27,6 @@ async def read_accounts(
 
 @router.post("/accounts/", tags=["accounts"])
 async def create_account(
-    section: SectionEnum = Query(
-        None, description="Filter transactions by section (EXPENSE or INCOME)"
-    ),
     account: AccountCreate = Body(...),
     db: Session = Depends(get_db)
 ):
@@ -44,8 +37,7 @@ async def create_account(
         raise HTTPException(status_code=400, detail="Value must be unique")
 
     new_account = Account(
-        value=account.value,
-        section=section
+        value=account.value
     )
     db.add(new_account)
     db.commit()

@@ -7,42 +7,36 @@ CREATE DATABASE qurtesy WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVI
 -- Create schema
 CREATE SCHEMA finance AUTHORIZATION postgres;
 
-DO $$ 
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'section_enum') THEN
-        CREATE TYPE finance.section_enum AS ENUM (
-            'EXPENSE',
-            'INCOME',
-            'INVESTMENT',
-            'LEND',
-            'SPLIT'
-        );
-    END IF;
-END $$;
+CREATE TYPE finance.section_enum AS ENUM (
+    'EXPENSE',
+    'INCOME',
+    'INVESTMENT',
+    'LEND',
+    'SPLIT'
+);
 
-CREATE TABLE IF NOT EXISTS finance.categories (
+CREATE TABLE finance.categories (
     id SERIAL PRIMARY KEY,
     value TEXT NOT NULL,
     emoji TEXT,
     section finance.section_enum NOT NULL,
     UNIQUE (value)
 );
--- INSERT INTO finance.categories (value, emoji) VALUES ('Food', '127828');
--- INSERT INTO finance.categories (value, emoji) VALUES ('Payments', '128184');
--- INSERT INTO finance.categories (value, emoji) VALUES ('Transport', '128640');
+-- INSERT INTO finance.categories (value, emoji, section) VALUES ('Food', '127828', 'EXPENSE');
+-- INSERT INTO finance.categories (value, emoji, section) VALUES ('Payments', '128184', 'EXPENSE');
+-- INSERT INTO finance.categories (value, emoji, section) VALUES ('Transport', '128640', 'EXPENSE');
 
-CREATE TABLE IF NOT EXISTS finance.accounts (
+CREATE TABLE finance.accounts (
     id SERIAL PRIMARY KEY,
     value TEXT NOT NULL,
-    section finance.section_enum NOT NULL,
     UNIQUE (value)
 );
--- INSERT INTO finance.accounts (value) VALUES ('Cash');
--- INSERT INTO finance.accounts (value) VALUES ('Accounts');
--- INSERT INTO finance.accounts (value) VALUES ('Cards');
--- INSERT INTO finance.accounts (value) VALUES ('Investments');
+-- INSERT INTO finance.accounts (value, section) VALUES ('Cash', 'EXPENSE');
+-- INSERT INTO finance.accounts (value, section) VALUES ('Accounts', 'EXPENSE');
+-- INSERT INTO finance.accounts (value, section) VALUES ('Cards', 'EXPENSE');
+-- INSERT INTO finance.accounts (value, section) VALUES ('Investments', 'EXPENSE');
 
-CREATE TABLE IF NOT EXISTS finance.transactions (
+CREATE TABLE finance.transactions (
     id SERIAL PRIMARY KEY,
     date DATE NOT NULL,
     amount DECIMAL(10,2),
