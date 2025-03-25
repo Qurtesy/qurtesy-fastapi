@@ -10,6 +10,7 @@ CREATE SCHEMA finance AUTHORIZATION postgres;
 CREATE TYPE finance.section_enum AS ENUM (
     'EXPENSE',
     'INCOME',
+    'TRANSFER',
     'INVESTMENT',
     'LEND',
     'SPLIT'
@@ -22,7 +23,7 @@ CREATE TABLE finance.categories (
     section finance.section_enum NOT NULL,
     UNIQUE (value)
 );
--- INSERT INTO finance.categories (value, emoji, section) VALUES ('Food', '127828', 'EXPENSE');
+INSERT INTO finance.categories (value, emoji, section) VALUES ('Transfer (Default)', null, 'TRANSFER');
 -- INSERT INTO finance.categories (value, emoji, section) VALUES ('Payments', '128184', 'EXPENSE');
 -- INSERT INTO finance.categories (value, emoji, section) VALUES ('Transport', '128640', 'EXPENSE');
 
@@ -39,10 +40,12 @@ CREATE TABLE finance.accounts (
 CREATE TABLE finance.transactions (
     id SERIAL PRIMARY KEY,
     date DATE NOT NULL,
+    credit BOOLEAN NOT NULL DEFAULT FALSE,
     amount DECIMAL(10,2),
     section finance.section_enum NOT NULL,
     category INTEGER NOT NULL,
     account INTEGER NOT NULL,
+    note TEXT,
     -- created_date DATE NOT NULL,
     -- updated_date DATE NOT NULL,
     FOREIGN KEY(category) REFERENCES finance.categories(id),

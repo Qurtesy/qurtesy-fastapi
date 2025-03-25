@@ -45,3 +45,17 @@ class TransactionUpdate(BaseModel):
             return datetime.strptime(value, "%d/%m/%Y").date()
         except ValueError:
             raise ValueError("Date format must be DD/MM/YYYY")
+
+# Transfer schemas
+class TransferCreate(BaseModel):
+    date: str = Field(None, description="Transaction date in DD/MM/YYYY format")
+    amount: float = Field(None, gt=0, description="Transaction amount (must be greater than 0)")
+    from_account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
+    to_account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
+
+    @validator("date")
+    def parse_date(cls, value):
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Date format must be DD/MM/YYYY")

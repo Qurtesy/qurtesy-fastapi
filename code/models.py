@@ -1,5 +1,5 @@
 import enum
-from sqlalchemy import Column, Integer, String, Date, Float, Enum, ForeignKey
+from sqlalchemy import Column, Boolean, Integer, String, Date, Float, Enum, ForeignKey
 from sqlalchemy.orm import relationship, declarative_base
 
 Base = declarative_base()
@@ -8,6 +8,7 @@ Base = declarative_base()
 class SectionEnum(str, enum.Enum):
     EXPENSE = 'EXPENSE'
     INCOME = 'INCOME'
+    TRANSFER = 'TRANSFER'
     INVESTMENT = 'INVESTMENT'
     LEND = 'LEND'
     SPLIT = 'SPLIT'
@@ -41,6 +42,7 @@ class Transaction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     date = Column(Date, nullable=False)
+    credit = Column(Boolean, nullable=False)
     amount = Column(Float, nullable=False)
     section = Column(Enum(SectionEnum, name="section_enum", schema="finance"), nullable=False)
     category = Column(Integer, ForeignKey("finance.categories.id"), nullable=False)

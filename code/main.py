@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from code.routers import accounts, categories, transactions
+from code.routers import accounts, categories, transactions, transfers
 from code.internal import admin
 
 app = FastAPI()
@@ -20,6 +20,7 @@ app.add_middleware(
 app.include_router(accounts.router)
 app.include_router(categories.router)
 app.include_router(transactions.router)
+app.include_router(transfers.router)
 
 @app.get("/")
 async def root():

@@ -38,7 +38,6 @@ def get_transactions(
         .order_by(desc(Transaction.date), desc(Transaction.id))
         .all()
     )
-    balance = db.query(func.sum(Transaction.amount)).scalar()
     return [
         {
             "id": t.id,
@@ -52,8 +51,7 @@ def get_transactions(
             "account": {
                 "id": t.account_rel.id,
                 "value": t.account_rel.value,
-            },
-            "balance": balance
+            }
         } for t in transactions
     ]
 
@@ -67,6 +65,7 @@ def create_transaction(
 ):
     new_transaction = Transaction(
         date=transaction.date,
+        credit=True if section == SectionEnum.INCOME or section == SectionEnum.INVESTMENT else False, 
         amount=transaction.amount,
         section=section,
         category=transaction.category,
@@ -75,7 +74,7 @@ def create_transaction(
     db.add(new_transaction)
     db.commit()
     db.refresh(new_transaction)
-    new_transaction.date = new_transaction.date.strftime("%d/%m/%Y")
+    new_transaction.date = format_date(new_transaction.date)
     return new_transaction
 
 @router.put("/transactions/{transaction_id}")

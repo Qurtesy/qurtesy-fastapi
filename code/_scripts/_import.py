@@ -1,5 +1,6 @@
 import os
 import csv
+from sqlalchemy import inspect, Boolean
 from sqlalchemy.orm import Session
 from code.models import Base, Account, Category, Transaction  # Import your models
 from code.database import get_db
@@ -28,7 +29,7 @@ def import_data():
         "accounts.csv": (Account, ["value"]),
         "categories.csv": (Category, ["value", "emoji", "section"]),
         # Child tables
-        "transactions.csv": (Transaction, ["date", "amount", "section", "category", "account"]),
+        "transactions.csv": (Transaction, ["date", "credit", "amount", "section", "category", "account"]),
     }
 
     model_map = {}
@@ -46,7 +47,12 @@ def import_data():
             for row in reader:
                 row_data = {}
                 for col, val in zip(columns, row):
-                    row_data[col] = val
+                    mapper = inspect(Transaction)
+                    column = mapper.columns.get(col)
+                    if isinstance(column.type, Boolean):
+                        row_data[col] = True if val == 'TRUE' else False
+                    else:
+                        row_data[col] = val
                 # Map unique field value to id
                 if model == Transaction:
                     row_data['category'] = model_map[f'{Category.__name__}:{row_data['category']}']
