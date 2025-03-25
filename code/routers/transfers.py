@@ -29,6 +29,7 @@ def create_transfer(
     )
     debit_transaction = Transaction(
         date=transaction.date,
+        credit=False,
         amount=transaction.amount,
         section=SectionEnum.TRANSFER.name,
         category=category.id,
@@ -37,6 +38,7 @@ def create_transfer(
     db.add(debit_transaction)
     credit_transaction = Transaction(
         date=transaction.date,
+        credit=True,
         amount=transaction.amount,
         section=SectionEnum.TRANSFER.name,
         category=category.id,

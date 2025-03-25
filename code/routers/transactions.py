@@ -42,6 +42,7 @@ def get_transactions(
         {
             "id": t.id,
             "date": format_date(t.date),
+            "credit": t.credit,
             "amount": t.amount,
             "category": {
                 "id": t.category_rel.id,

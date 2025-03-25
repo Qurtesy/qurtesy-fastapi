@@ -47,7 +47,7 @@ def import_data():
             for row in reader:
                 row_data = {}
                 for col, val in zip(columns, row):
-                    mapper = inspect(Transaction)
+                    mapper = inspect(model)
                     column = mapper.columns.get(col)
                     if isinstance(column.type, Boolean):
                         row_data[col] = True if val == 'TRUE' else False
