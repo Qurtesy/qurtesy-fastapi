@@ -23,9 +23,12 @@ def export_data():
     db: Session = next(get_db())
 
     tables = {
-        "accounts": (Account, ["value"]),
+        "category_groups": (),
+        "account_groups": (),
         "categories": (Category, ["value", "emoji", "section"]),
-        "transactions": (Transaction, ["date", "amount", "section", "category_rel", "account_rel"]),
+        "accounts": (Account, ["value"]),
+        "transactions": (Transaction, ["date", "credit", "amount", "section", "category_group_rel", "account_group_rel",\
+                                       "category_rel", "account_rel","note","created_date","updated_date"]),
     }
 
     # Export Tables

@@ -14,6 +14,20 @@ class SectionEnum(str, enum.Enum):
     SPLIT = 'SPLIT'
 
 
+class CategoryGroup(Base):
+    __tablename__ = "category_groups"
+    __table_args__ = {"schema": "finance"}
+
+    id = Column(Integer, primary_key=True, index=True)
+    value = Column(String, nullable=False, unique=True)
+    emoji = Column(String)
+    section = Column(Enum(SectionEnum, name="section_enum", schema="finance"), nullable=False)
+    created_date = Column(Date, nullable=False)
+    updated_date = Column(Date, nullable=False)
+
+    transactions = relationship("Transaction", back_populates="category_rel")
+
+
 class Category(Base):
     __tablename__ = "categories"
     __table_args__ = {"schema": "finance"}
