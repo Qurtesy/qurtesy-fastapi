@@ -22,8 +22,10 @@ class AccountUpdate(BaseModel):
 class TransactionCreate(BaseModel):
     date: str = Field(..., description="Transaction date in DD/MM/YYYY format")
     amount: float = Field(..., gt=0, description="Transaction amount (must be greater than 0)")
-    category: int = Field(..., description="Category ID")
-    account: int = Field(..., description="Account ID")
+    category_group: int = Field(..., gt=0, description="Category Group ID (must be a positive integer)")
+    category: int = Field(None, gt=0, description="Category ID (must be a positive integer)")
+    account_group: int = Field(..., gt=0, description="Account Group ID (must be a positive integer)")
+    account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
 
     @validator("date")
     def parse_date(cls, value):
@@ -36,7 +38,9 @@ class TransactionCreate(BaseModel):
 class TransactionUpdate(BaseModel):
     date: str = Field(None, description="Transaction date in DD/MM/YYYY format")
     amount: float = Field(None, gt=0, description="Transaction amount (must be greater than 0)")
+    category_group: int = Field(None, gt=0, description="Category Group ID (must be a positive integer)")
     category: int = Field(None, gt=0, description="Category ID (must be a positive integer)")
+    account_group: int = Field(None, gt=0, description="Account Group ID (must be a positive integer)")
     account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
 
     @validator("date")

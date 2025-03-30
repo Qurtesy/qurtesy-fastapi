@@ -37,3 +37,4 @@ services:
       - db
     volumes:
       - ./db_dump:/db_dump
+      - ./server_cache:/root/.cache

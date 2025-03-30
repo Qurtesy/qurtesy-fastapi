@@ -6,10 +6,10 @@ from pydantic import BaseModel
 from sqlalchemy import and_, desc, func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from code.database import get_db
-from code.models import Category, Transaction, SectionEnum
-from code.schemas import TransferCreate
-from code.utils.datetime import format_date
+from database import get_db
+from models import CategoryGroup, Transaction, SectionEnum
+from schemas import TransferCreate
+from utils.datetime import format_date
 
 router = APIRouter()
 
@@ -23,8 +23,8 @@ def create_transfer(
     db: Session = Depends(get_db)
 ):
     category = (
-        db.query(Category)
-        .filter(Category.value == TRANSFER_CATEGORY)
+        db.query(CategoryGroup)
+        .filter(CategoryGroup.value == TRANSFER_CATEGORY)
         .first()
     )
     debit_transaction = Transaction(
@@ -32,18 +32,18 @@ def create_transfer(
         credit=False,
         amount=transaction.amount,
         section=SectionEnum.TRANSFER.name,
-        category=category.id,
-        account=transaction.from_account
-    )
+        category_group=category.id,
+        account_group=transaction.from_account
+    ).create()
     db.add(debit_transaction)
     credit_transaction = Transaction(
         date=transaction.date,
         credit=True,
         amount=transaction.amount,
         section=SectionEnum.TRANSFER.name,
-        category=category.id,
-        account=transaction.to_account
-    )
+        category_group=category.id,
+        account_group=transaction.to_account
+    ).create()
     db.add(credit_transaction)
     db.commit()
     db.refresh(debit_transaction)
@@ -53,14 +53,14 @@ def create_transfer(
             "id": t.id,
             "date": format_date(t.date),
             "amount": t.amount,
-            "category": {
-                "id": t.category_rel.id,
-                "emoji": t.category_rel.emoji,
-                "value": t.category_rel.value,
+            "category_group": {
+                "id": t.category_groups_rel.id,
+                "emoji": t.category_groups_rel.emoji,
+                "value": t.category_groups_rel.value,
             },
             "account": {
-                "id": t.account_rel.id,
-                "value": t.account_rel.value,
+                "id": t.account_groups_rel.id,
+                "value": t.account_groups_rel.value,
             }
         } for t in [debit_transaction, credit_transaction]
     ]

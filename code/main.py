@@ -1,7 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from code.routers import accounts, categories, transactions, transfers
-from code.internal import admin
+from routers import (
+    accounts,
+    categories,
+    transactions,
+    transfers,
+    transcribes
+)
+from internal import admin
 
 app = FastAPI()
 
@@ -21,6 +27,7 @@ app.include_router(accounts.router)
 app.include_router(categories.router)
 app.include_router(transactions.router)
 app.include_router(transfers.router)
+app.include_router(transcribes.router)
 
 @app.get("/")
 async def root():

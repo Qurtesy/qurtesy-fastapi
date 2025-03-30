@@ -2,18 +2,39 @@ from fastapi import APIRouter, Depends, Query, Body, HTTPException
 from typing import List, Dict, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from code.database import get_db
-from code.models import SectionEnum, Account
-from code.schemas import AccountCreate, AccountUpdate
+from database import get_db
+from models import SectionEnum, AccountGroup, Account
+from schemas import AccountCreate, AccountUpdate
 
 router = APIRouter()
 
+@router.get("/account_groups/", response_model=List[Dict])
+async def read_account_groups(
+    db: Session = Depends(get_db)
+):
+    account_groups: list[AccountGroup] = (
+        db.query(AccountGroup)
+        .order_by(AccountGroup.id)
+        .all()
+    )
+    return [
+        {
+            "id": ag.id,
+            "value": ag.value,
+            "accounts": [
+                {
+                    "id": a.id,
+                    "value": a.value
+                } for a in ag.accounts_rel
+            ]
+        } for ag in account_groups
+    ]
 
 @router.get("/accounts/", response_model=List[Dict])
 async def read_accounts(
     db: Session = Depends(get_db)
 ):
-    accounts = (
+    accounts: list[Account] = (
         db.query(Account)
         .order_by(Account.id)
         .all()

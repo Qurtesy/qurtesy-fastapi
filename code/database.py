@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from .config import db_url
+from config import db_url
 
 # Create the SQLAlchemy engine
 engine = create_engine(db_url, connect_args={"options": "-csearch_path=qurtesy"})

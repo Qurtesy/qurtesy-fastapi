@@ -23,11 +23,10 @@ CREATE TABLE finance.category_groups (
     section finance.section_enum NOT NULL,
     UNIQUE (value),
     created_date DATE NOT NULL,
-    updated_date DATE NOT NULL,
+    updated_date DATE NOT NULL
 );
 
 INSERT INTO finance.category_groups (value, emoji, section, created_date, updated_date) VALUES
-    ('Transfer (Default)', null, 'TRANSFER', NOW(), NOW()),
     ('Food','🍟','EXPENSE', NOW(), NOW()),
     ('Education','📘','EXPENSE', NOW(), NOW()),
     ('Transports','🚃','EXPENSE', NOW(), NOW()),
@@ -35,7 +34,9 @@ INSERT INTO finance.category_groups (value, emoji, section, created_date, update
     ('Gift','🧸','EXPENSE', NOW(), NOW()),
     ('Entertainment','🎮','EXPENSE', NOW(), NOW()),
     ('Salary','💰','INCOME', NOW(), NOW()),
-    ('Groww','🦍','INVESTMENT', NOW(), NOW());
+    ('Groww','🦍','INVESTMENT', NOW(), NOW()),
+    ('Transfer (Default)', null, 'TRANSFER', NOW(), NOW()),
+    ('Recording', null, 'EXPENSE', NOW(), NOW());
 
 CREATE TABLE finance.categories (
     id SERIAL PRIMARY KEY,
@@ -45,22 +46,22 @@ CREATE TABLE finance.categories (
     section finance.section_enum NOT NULL,
     UNIQUE (value),
     created_date DATE NOT NULL,
-    updated_date DATE NOT NULL,
+    updated_date DATE NOT NULL
 );
 
-INSERT INTO finance.categories (value, category_group, emoji, section, created_date, updated_date)
-    ('Breakfast', 2, '🍌', 'EXPENSE', NOW(), NOW()),
-    ('Lunch', 2, '🥘', 'EXPENSE', NOW(), NOW()),
-    ('Snacks', 2, '🍪', 'EXPENSE', NOW(), NOW()),
-    ('Dinner', 2, '🍽️', 'EXPENSE', NOW(), NOW());
+INSERT INTO finance.categories (value, category_group, emoji, section, created_date, updated_date) VALUES
+    ('Breakfast', 1, '🍌', 'EXPENSE', NOW(), NOW()),
+    ('Lunch', 1, '🥘', 'EXPENSE', NOW(), NOW()),
+    ('Snacks', 1, '🍪', 'EXPENSE', NOW(), NOW()),
+    ('Dinner', 1, '🍽️', 'EXPENSE', NOW(), NOW());
 
-CREATE TABLE finance.account_groups {
+CREATE TABLE finance.account_groups (
     id SERIAL PRIMARY KEY,
     value TEXT NOT NULL,
     UNIQUE (value),
     created_date DATE NOT NULL,
-    updated_date DATE NOT NULL,
-}
+    updated_date DATE NOT NULL
+);
 
 INSERT INTO finance.account_groups (value, created_date, updated_date) VALUES
     ('Cash', NOW(), NOW()),
@@ -75,7 +76,7 @@ CREATE TABLE finance.accounts (
     UNIQUE (value),
     created_date DATE NOT NULL,
     updated_date DATE NOT NULL,
-    FOREIGN KEY(account_group) REFERENCES finance.account_groups(id),
+    FOREIGN KEY(account_group) REFERENCES finance.account_groups(id)
 );
 
 INSERT INTO finance.accounts (value, account_group, created_date, updated_date) VALUES
