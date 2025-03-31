@@ -1,6 +1,6 @@
 import sys
-from code._scripts._export import export_data
-from code._scripts._import import import_data
+from _scripts._export import export_data
+from _scripts._import import import_data
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:

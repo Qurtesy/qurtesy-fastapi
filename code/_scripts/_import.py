@@ -2,8 +2,8 @@ import os
 import csv
 from sqlalchemy import inspect, Boolean
 from sqlalchemy.orm import Session
-from code.models import Base, Account, Category, Transaction  # Import your models
-from code.database import get_db
+from models import Base, CategoryGroup, AccountGroup, Account, Category, Transaction  # Import your models
+from database import get_db
 
 # Directory containing CSV files
 DUMP_DIR = "db_dump"
@@ -29,10 +29,14 @@ def import_data():
         "accounts.csv": (Account, ["value"]),
         "categories.csv": (Category, ["value", "emoji", "section"]),
         # Child tables
-        "transactions.csv": (Transaction, ["date", "credit", "amount", "section", "category", "account"]),
+        "transactions.csv": (Transaction, ["date", "credit", "amount", "section", "category_group", "account_group", "category", "account","note","created_date","updated_date"]),
     }
 
     model_map = {}
+    for model in [CategoryGroup, AccountGroup, Category, Account]:
+        for r in db.query(model).all():
+            model_map[f'{model.__name__}:{r.value}'] = r.id
+
     for file_name, (model, columns) in tables.items():
         file_path = os.path.join(DUMP_DIR, file_name)
 
@@ -51,16 +55,22 @@ def import_data():
                     column = mapper.columns.get(col)
                     if isinstance(column.type, Boolean):
                         row_data[col] = True if val == 'TRUE' else False
+                    elif not val:
+                        row_data[col] = None
                     else:
                         row_data[col] = val
                 # Map unique field value to id
                 if model == Transaction:
-                    row_data['category'] = model_map[f'{Category.__name__}:{row_data['category']}']
-                    row_data['account'] = model_map[f'{Account.__name__}:{row_data['account']}']
+                    row_data['category_group'] = model_map[f'{CategoryGroup.__name__}:{row_data['category_group']}']
+                    row_data['account_group'] = model_map[f'{AccountGroup.__name__}:{row_data['account_group']}']
+                    if row_data['category']:
+                        row_data['category'] = model_map[f'{Category.__name__}:{row_data['category']}']
+                    if row_data['account']:
+                        row_data['account'] = model_map[f'{Account.__name__}:{row_data['account']}']
                 db.add(model(**row_data))
 
         db.commit()
-        if model == Category or model == Account:
+        if model == CategoryGroup or model == AccountGroup or model == Category or model == Account:
             for r in db.query(model).all():
                 model_map[f'{model.__name__}:{r.value}'] = r.id
         print(f"✅ Imported data to parent table {model} from {file_name} successfully.")

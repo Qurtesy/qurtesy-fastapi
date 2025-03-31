@@ -2,9 +2,9 @@ import os
 import csv
 from enum import Enum
 from sqlalchemy.orm import Session
-from code.models import Base, Account, Category, Transaction  # Import your models
-from code.database import get_db
-from code.utils.datetime import format_date
+from models import Base, Account, Category, Transaction  # Import your models
+from database import get_db
+from utils.datetime import format_date
 
 # CSV file paths
 CSV_FILES = {
@@ -23,12 +23,12 @@ def export_data():
     db: Session = next(get_db())
 
     tables = {
-        "category_groups": (),
-        "account_groups": (),
-        "categories": (Category, ["value", "emoji", "section"]),
-        "accounts": (Account, ["value"]),
-        "transactions": (Transaction, ["date", "credit", "amount", "section", "category_group_rel", "account_group_rel",\
-                                       "category_rel", "account_rel","note","created_date","updated_date"]),
+        # "category_groups": (),
+        # "account_groups": (),
+        # "categories": (Category, ["value", "emoji", "section"]),
+        # "accounts": (Account, ["value"]),
+        "transactions": (Transaction, ["date", "credit", "amount", "section", "category_group", "account_group",\
+                                       "category", "account","note","created_date","updated_date"]),
     }
 
     # Export Tables

@@ -1,9 +1,0 @@
-value,emoji,section
-Transfer (Default),None,TRANSFER
-Education,📘,EXPENSE
-Transports,🚃,EXPENSE
-Payments,💸,EXPENSE
-Gift,🧸,EXPENSE
-Entertainment,🎮,EXPENSE
-Salary,💰,INCOME
-Groww,🦍,INVESTMENT

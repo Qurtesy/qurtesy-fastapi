@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir --upgrade -r /code/_requirements/dev.txt
 COPY . /code
 
 # CMD ["fastapi", "run", "main.py", "--port", "8000"]
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8085", "--workers", "1"]
