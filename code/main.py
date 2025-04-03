@@ -5,7 +5,7 @@ from routers import (
     categories,
     transactions,
     transfers,
-    transcribes
+    # transcribes
 )
 from internal import admin
 
@@ -27,7 +27,7 @@ app.include_router(accounts.router)
 app.include_router(categories.router)
 app.include_router(transactions.router)
 app.include_router(transfers.router)
-app.include_router(transcribes.router)
+# app.include_router(transcribes.router)
 
 @app.get("/")
 async def root():

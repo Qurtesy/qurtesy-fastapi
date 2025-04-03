@@ -1,17 +1,11 @@
 import sys
-from _scripts._export import export_data
-from _scripts._import import import_data
+import importlib
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("❌ Usage: python script.py <export|import>")
-        sys.exit(1)
+    script = sys.argv[1].lower()
 
-    option = sys.argv[1].lower()
+    module = importlib.import_module(f'_scripts.{script}')
 
-    if option == "export":
-        export_data()
-    elif option == "import":
-        import_data()
-    else:
-        print("❌ Invalid option! Use 'export' or 'import'.")
+    # Get the function from the module
+    func = getattr(module, 'execute_command')
+    func()

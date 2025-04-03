@@ -18,7 +18,7 @@ DUMP_DIR = "db_dump"
 os.makedirs(DUMP_DIR, exist_ok=True)
 
 # EXPORT FUNCTION
-def export_data():
+def execute_command():
     """Exports accounts, categories, and transactions tables to CSV."""
     db: Session = next(get_db())
 

@@ -16,7 +16,7 @@ CSV_FILES = {
 }
 
 # IMPORT FUNCTION
-def import_data():
+def execute_command():
     """Imports data from CSV files into the database."""
     if not os.path.exists(DUMP_DIR):
         print(f"❌ Error: Directory '{DUMP_DIR}' not found. Please export data first.")
