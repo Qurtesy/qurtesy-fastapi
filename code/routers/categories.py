@@ -3,36 +3,11 @@ from typing import List, Dict, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import SectionEnum, CategoryGroup, Category
+from models import SectionEnum, Category
 from schemas import CategoryCreate, CategoryUpdate
 
 router = APIRouter()
 
-
-@router.get("/category_groups/")
-async def read_category_groups(
-    section: SectionEnum = Query(
-        None, description="Filter transactions by section (EXPENSE or INCOME)"
-    ),
-    db: Session = Depends(get_db)
-):
-    category_groups: list[CategoryGroup] = (
-        db.query(CategoryGroup)
-        .filter(CategoryGroup.section == section)
-        .order_by(CategoryGroup.id)
-        .all()
-    )
-    return [
-        {
-            "id": c.id,
-            "value": c.value,
-            "emoji": c.emoji,
-            "section": c.section,
-            "categories": c.categories_rel,
-            "created_date": c.created_date,
-            "updated_date": c.updated_date
-        } for c in category_groups
-    ]
 
 @router.get("/categories/")
 async def read_categories(
@@ -51,7 +26,10 @@ async def read_categories(
         {
             "id": c.id,
             "value": c.value,
-            "emoji": c.emoji
+            "emoji": c.emoji,
+            "section": c.section,
+            "created_date": c.created_date,
+            "updated_date": c.updated_date
         } for c in categories
     ]
 

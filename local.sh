@@ -1,10 +1,15 @@
 #!/bin/bash
 if [[ "$1" == "-f" ]]; then
-    sudo rm -rf db_static
+    rm -rf db_static
     docker pull adminer
     docker pull postgres
     docker pull python:3.12
+    docker pull amazon/aws-cli
+    docker rmi $(docker images -q) -f
+    docker rm $(docker ps -f status=exited -q) -f
+    docker compose up
+else
+    docker rmi $(docker images -f 'label=com.qurtesy.finance' -q) -f
+    docker rm $(docker ps -f status=exited -f 'label=com.qurtesy.finance' -q) -f
+    docker compose up
 fi
-docker rmi $(sudo docker images -f 'label=com.qurtesy.finance' -q) -f
-docker rm $(sudo docker ps -f status=exited -f 'label=com.qurtesy.finance' -q) -f
-sudo docker compose up

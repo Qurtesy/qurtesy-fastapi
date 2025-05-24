@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import datetime, date
+from typing import Optional
 from pydantic import BaseModel, Field, validator
 
 class CategoryCreate(BaseModel):
@@ -22,10 +23,9 @@ class AccountUpdate(BaseModel):
 class TransactionCreate(BaseModel):
     date: str = Field(..., description="Transaction date in DD/MM/YYYY format")
     amount: float = Field(..., gt=0, description="Transaction amount (must be greater than 0)")
-    category_group: int = Field(..., gt=0, description="Category Group ID (must be a positive integer)")
-    category: int = Field(None, gt=0, description="Category ID (must be a positive integer)")
-    account_group: int = Field(..., gt=0, description="Account Group ID (must be a positive integer)")
-    account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
+    category_id: Optional[int] = Field(None, gt=0, description="Category ID (must be a positive integer)")
+    account_id: Optional[int] = Field(None, gt=0, description="Account ID (must be a positive integer)")
+    note: Optional[str] = Field(None, description="Optional note about the transaction")
 
     @validator("date")
     def parse_date(cls, value):
@@ -36,26 +36,28 @@ class TransactionCreate(BaseModel):
 
 
 class TransactionUpdate(BaseModel):
-    date: str = Field(None, description="Transaction date in DD/MM/YYYY format")
-    amount: float = Field(None, gt=0, description="Transaction amount (must be greater than 0)")
-    category_group: int = Field(None, gt=0, description="Category Group ID (must be a positive integer)")
-    category: int = Field(None, gt=0, description="Category ID (must be a positive integer)")
-    account_group: int = Field(None, gt=0, description="Account Group ID (must be a positive integer)")
-    account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
+    date: Optional[str] = Field(None, description="Transaction date in DD/MM/YYYY format")
+    amount: Optional[float] = Field(None, gt=0, description="Transaction amount (must be greater than 0)")
+    category_id: Optional[int] = Field(None, gt=0, description="Category ID (must be a positive integer)")
+    account_id: Optional[int] = Field(None, gt=0, description="Account ID (must be a positive integer)")
+    note: Optional[str] = Field(None, description="Optional note about the transaction")
 
     @validator("date")
     def parse_date(cls, value):
+        if value is None:
+            return value
         try:
             return datetime.strptime(value, "%d/%m/%Y").date()
         except ValueError:
             raise ValueError("Date format must be DD/MM/YYYY")
 
-# Transfer schemas
+
 class TransferCreate(BaseModel):
-    date: str = Field(None, description="Transaction date in DD/MM/YYYY format")
-    amount: float = Field(None, gt=0, description="Transaction amount (must be greater than 0)")
-    from_account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
-    to_account: int = Field(None, gt=0, description="Account ID (must be a positive integer)")
+    date: str = Field(..., description="Transaction date in DD/MM/YYYY format")
+    amount: float = Field(..., gt=0, description="Transaction amount (must be greater than 0)")
+    from_account_id: int = Field(..., gt=0, description="From Account ID (must be a positive integer)")
+    to_account_id: int = Field(..., gt=0, description="To Account ID (must be a positive integer)")
+    note: Optional[str] = Field(None, description="Optional note about the transfer")
 
     @validator("date")
     def parse_date(cls, value):
@@ -63,3 +65,77 @@ class TransferCreate(BaseModel):
             return datetime.strptime(value, "%d/%m/%Y").date()
         except ValueError:
             raise ValueError("Date format must be DD/MM/YYYY")
+
+
+class BudgetCreate(BaseModel):
+    category_id: int = Field(..., gt=0, description="Category ID")
+    month: int = Field(..., ge=1, le=12, description="Month (1-12)")
+    year: int = Field(..., ge=2020, description="Year")
+    budgeted_amount: float = Field(..., gt=0, description="Budget amount")
+
+
+class BudgetUpdate(BaseModel):
+    budgeted_amount: Optional[float] = Field(None, gt=0, description="Budget amount")
+
+
+class RecurringTransactionCreate(BaseModel):
+    name: str = Field(..., description="Name of the recurring transaction")
+    amount: float = Field(..., gt=0, description="Transaction amount")
+    category_id: Optional[int] = Field(None, gt=0, description="Category ID")
+    account_id: Optional[int] = Field(None, gt=0, description="Account ID")
+    frequency: str = Field(..., description="Frequency: daily, weekly, monthly, yearly")
+    start_date: str = Field(..., description="Start date in DD/MM/YYYY format")
+    end_date: Optional[str] = Field(None, description="End date in DD/MM/YYYY format")
+    note: Optional[str] = Field(None, description="Optional note")
+
+    @validator("frequency")
+    def validate_frequency(cls, value):
+        allowed_frequencies = ["daily", "weekly", "monthly", "yearly"]
+        if value not in allowed_frequencies:
+            raise ValueError(f"Frequency must be one of: {', '.join(allowed_frequencies)}")
+        return value
+
+    @validator("start_date")
+    def parse_start_date(cls, value):
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Start date format must be DD/MM/YYYY")
+
+    @validator("end_date")
+    def parse_end_date(cls, value):
+        if value is None:
+            return value
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("End date format must be DD/MM/YYYY")
+
+
+class RecurringTransactionUpdate(BaseModel):
+    name: Optional[str] = Field(None, description="Name of the recurring transaction")
+    amount: Optional[float] = Field(None, gt=0, description="Transaction amount")
+    category_id: Optional[int] = Field(None, gt=0, description="Category ID")
+    account_id: Optional[int] = Field(None, gt=0, description="Account ID")
+    frequency: Optional[str] = Field(None, description="Frequency: daily, weekly, monthly, yearly")
+    end_date: Optional[str] = Field(None, description="End date in DD/MM/YYYY format")
+    is_active: Optional[bool] = Field(None, description="Whether the recurring transaction is active")
+    note: Optional[str] = Field(None, description="Optional note")
+
+    @validator("frequency")
+    def validate_frequency(cls, value):
+        if value is None:
+            return value
+        allowed_frequencies = ["daily", "weekly", "monthly", "yearly"]
+        if value not in allowed_frequencies:
+            raise ValueError(f"Frequency must be one of: {', '.join(allowed_frequencies)}")
+        return value
+
+    @validator("end_date")
+    def parse_end_date(cls, value):
+        if value is None:
+            return value
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("End date format must be DD/MM/YYYY")

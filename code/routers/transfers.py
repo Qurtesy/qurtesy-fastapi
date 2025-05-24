@@ -7,7 +7,7 @@ from sqlalchemy import and_, desc, func
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import CategoryGroup, Transaction, SectionEnum
+from models import Category, Transaction, SectionEnum
 from schemas import TransferCreate
 from utils.datetime import format_date
 
@@ -23,8 +23,8 @@ def create_transfer(
     db: Session = Depends(get_db)
 ):
     category = (
-        db.query(CategoryGroup)
-        .filter(CategoryGroup.value == TRANSFER_CATEGORY)
+        db.query(Category)
+        .filter(Category.value == TRANSFER_CATEGORY)
         .first()
     )
     debit_transaction = Transaction(

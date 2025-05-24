@@ -1,0 +1,1881 @@
+Transaction Statement for 9062786568
+01 Mar, 2025 - 31 Mar, 2025
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 30, 2025
+
+Paid to Zepto
+
+DEBIT
+
+₹436
+
+01:40 pm
+
+Transaction ID T2503301340116442557512
+
+UTR No. 423380737685
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 30, 2025
+
+Paid to ALPESH KUMAR
+
+DEBIT
+
+₹10
+
+12:54 pm
+
+Transaction ID T2503301254310509679226
+
+UTR No. 928812000192
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 30, 2025
+
+Paid to Gusto
+
+DEBIT
+
+₹100
+
+12:47 pm
+
+Transaction ID T2503301247115372562294
+
+UTR No. 246082368344
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 29, 2025
+
+Paid to ALPESH KUMAR
+
+DEBIT
+
+₹10
+
+12:55 pm
+
+Transaction ID T2503291255163943977626
+
+UTR No. 905257381615
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 29, 2025
+
+Paid to Gusto
+
+DEBIT
+
+₹100
+
+12:48 pm
+
+Transaction ID T2503291247595673170924
+
+UTR No. 321496635310
+
+Paid by
+
+XXXXXX6371
+
+Mar 28, 2025
+
+Paid to Mr RAMA PANDIT SONUNE
+
+DEBIT
+
+₹47
+
+11:04 am
+
+Transaction ID T2503281104247366795256
+
+UTR No. 953125152211
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 27, 2025
+
+Paid to Zepto
+
+DEBIT
+
+₹479
+
+08:39 pm
+
+Transaction ID T2503272039348665799681
+
+UTR No. 184612255504
+
+Paid by
+
+XXXXXXXXXX79
+
+Page 1 of 13
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 27, 2025
+
+Paid to Mr. RAJESH PANDURANG SHIRKE
+
+DEBIT
+
+₹510
+
+08:06 pm
+
+Transaction ID T2503272005572283016168
+
+UTR No. 297283790050
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 27, 2025
+
+Paid to Akbar Shaikh
+
+DEBIT
+
+₹45
+
+06:25 pm
+
+Transaction ID T2503271825465753799666
+
+UTR No. 874882030073
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 27, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹309.75
+
+01:29 pm
+
+Transaction ID T2503271329013449504837
+
+UTR No. 726322791737
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 27, 2025
+
+Paid to SALIM  GUJJAR
+
+DEBIT
+
+₹60
+
+11:07 am
+
+Transaction ID T2503271107288778821141
+
+UTR No. 171224943762
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 26, 2025
+
+Paid to Gusto
+
+DEBIT
+
+₹100
+
+07:55 pm
+
+Transaction ID T2503261955240609343479
+
+UTR No. 649059311159
+
+Paid by
+
+XXXXXX6371
+
+Mar 26, 2025
+
+Paid to Ace Kitchen
+
+DEBIT
+
+₹74
+
+06:46 pm
+
+Transaction ID T2503261846510157464049
+
+UTR No. 346114930939
+
+Paid by
+
+XXXXXX6371
+
+Mar 26, 2025
+
+Paid to PANKAJ SARAJ RAO
+
+DEBIT
+
+₹18
+
+05:43 pm
+
+Transaction ID T2503261743122228206955
+
+UTR No. 706960556684
+
+Paid by
+
+XXXXXX6371
+
+Mar 26, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹147
+
+01:20 pm
+
+Transaction ID T2503261320327636300832
+
+UTR No. 595907094754
+
+Paid by
+
+XXXXXX6371
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 2 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 26, 2025
+
+Paid to RANPISE ANKUSH MAHADEV
+
+DEBIT
+
+₹40
+
+11:22 am
+
+Transaction ID T2503261122461911056169
+
+UTR No. 014757356927
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 25, 2025
+
+Paid to SANJAY DEVIDAS NARAVADE
+
+DEBIT
+
+₹45
+
+06:26 pm
+
+Transaction ID T2503251826097631601400
+
+UTR No. 969902284649
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 25, 2025
+
+Paid to SAI KOK PA CHINESE
+
+DEBIT
+
+₹640
+
+02:43 pm
+
+Transaction ID T2503251443072998179280
+
+UTR No. 097305417653
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 25, 2025
+
+Paid to PANKAJ SARAJ RAO
+
+DEBIT
+
+₹18
+
+01:29 pm
+
+Transaction ID T2503251329560795494338
+
+UTR No. 013927325329
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 25, 2025
+
+Paid to Mr JEEVAN SHANTARAM VITKAR
+
+DEBIT
+
+₹35
+
+11:09 am
+
+Transaction ID T2503251109448565852465
+
+UTR No. 684802042872
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 24, 2025
+
+Paid to Gusto
+
+DEBIT
+
+₹100
+
+09:55 pm
+
+Transaction ID T2503242155562264304300
+
+UTR No. 386103510729
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 24, 2025
+
+Paid to Krishna Narsamlu Mangal
+
+DEBIT
+
+₹100
+
+09:55 pm
+
+Transaction ID T2503242155022672113283
+
+UTR No. 821397561362
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 24, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹162.75
+
+02:05 pm
+
+Transaction ID T2503241405519220131389
+
+UTR No. 129003194049
+
+Paid by
+
+XXXXXXXXXX79
+
+Page 3 of 13
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 24, 2025
+
+Paid to Mr MOHAN KASHINATH KHOSE
+
+DEBIT
+
+₹35
+
+11:20 am
+
+Transaction ID T2503241120298907900555
+
+UTR No. 817498774661
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 23, 2025
+
+Paid to ZEPTO MARKETPLACE PRIVATE LIMITED
+
+DEBIT
+
+₹803
+
+02:33 pm
+
+Transaction ID T2503231433427700391166
+
+UTR No. 032096374272
+
+Paid by
+
+XXXXXX6371
+
+Mar 22, 2025
+
+Paid to ZOMATO
+
+DEBIT
+
+₹413.05
+
+11:36 pm
+
+Transaction ID T2503222336357342635670
+
+UTR No. 271361055127
+
+Paid by
+
+XXXXXX6371
+
+Mar 22, 2025
+
+Paid to Zomato private Limited
+
+DEBIT
+
+₹550.30
+
+02:59 pm
+
+Transaction ID T2503221458572261408110
+
+UTR No. 498267777072
+
+Paid by
+
+XXXXXX6371
+
+Mar 21, 2025
+
+Paid to Zomato Ltd
+
+DEBIT
+
+₹636.40
+
+11:00 pm
+
+Transaction ID T2503212300528955855523
+
+UTR No. 858775820709
+
+Paid by
+
+XXXXXX6371
+
+Mar 21, 2025
+
+Paid to Gusto
+
+DEBIT
+
+₹100
+
+06:21 pm
+
+Transaction ID T2503211821419550581556
+
+UTR No. 772093243237
+
+Paid by
+
+XXXXXX6371
+
+Mar 21, 2025
+
+Paid to PRAVIN DHARMU JADHAV
+
+DEBIT
+
+₹45
+
+06:20 pm
+
+Transaction ID T2503211818490713340808
+
+UTR No. 554245249623
+
+Paid by
+
+XXXXXX6371
+
+Mar 21, 2025
+
+Paid to SAI KOK PA CHINESE
+
+DEBIT
+
+₹670
+
+02:08 pm
+
+Transaction ID T2503211408027630166317
+
+UTR No. 944617752659
+
+Paid by
+
+XXXXXX6371
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 4 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 21, 2025
+
+Paid to THE CHANGE FASHION DESIGNER
+
+DEBIT
+
+₹35
+
+11:06 am
+
+Transaction ID T2503211105594704945722
+
+UTR No. 486880611023
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 20, 2025
+
+Paid to ZOMATO LIMITED
+
+DEBIT
+
+₹316.68
+
+09:24 pm
+
+Transaction ID T2503202124381045019867
+
+UTR No. 445055837938
+
+Paid by
+
+XXXXXX6371
+
+Mar 20, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹147
+
+01:12 pm
+
+Transaction ID T2503201312093088462950
+
+UTR No. 712650520842
+
+Paid by
+
+XXXXXX6371
+
+Mar 20, 2025
+
+Paid to Shreenath Vadewale
+
+DEBIT
+
+₹35
+
+11:02 am
+
+Transaction ID T2503201102312308941548
+
+UTR No. 693398004103
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 19, 2025
+
+Paid to KGN TANDOOR XPRS
+
+DEBIT
+
+₹249
+
+09:32 pm
+
+Transaction ID T2503192132525968707705
+
+UTR No. 579036904491
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 19, 2025
+
+Paid to Gusto
+
+DEBIT
+
+₹100
+
+08:00 pm
+
+Transaction ID T2503192000278070578298
+
+UTR No. 615807273263
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 19, 2025
+
+Received from Razorpay
+
+CREDIT
+
+₹608
+
+02:15 pm
+
+Transaction ID T2503191415429540839713
+
+UTR No. 159784420785
+
+Credited to
+
+XXXXXX6371
+
+Mar 19, 2025
+
+Paid to ZEPTO MARKETPLACE PRIVATE LIMITED
+
+DEBIT
+
+₹608
+
+02:12 pm
+
+Transaction ID T2503191412484484409712
+
+UTR No. 013796225165
+
+Paid by
+
+XXXXXX6371
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 5 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 19, 2025
+
+Paid to ZOMATO
+
+DEBIT
+
+₹472.80
+
+02:09 pm
+
+Transaction ID T2503191409119201892981
+
+UTR No. 526730665242
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 18, 2025
+
+Paid to Zomato Ltd
+
+DEBIT
+
+₹376.15
+
+08:30 pm
+
+Transaction ID T2503182030131417994902
+
+UTR No. 731219864454
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 18, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹126
+
+01:15 pm
+
+Transaction ID T2503181315049552749403
+
+UTR No. 573053744839
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 18, 2025
+
+Paid to Akash Auto
+
+DEBIT
+
+₹35
+
+11:13 am
+
+Transaction ID T2503181113100208809211
+
+UTR No. 131584580979
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 17, 2025
+
+Paid to Gusto
+
+DEBIT
+
+₹100
+
+10:58 pm
+
+Transaction ID T2503172258169237254657
+
+UTR No. 723452225567
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 17, 2025
+
+Paid to Zomato Ltd
+
+DEBIT
+
+₹544.80
+
+08:51 pm
+
+Transaction ID T2503172051175817971807
+
+UTR No. 488700839039
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 17, 2025
+
+Paid to AMOL MAHADEV ADASULE
+
+DEBIT
+
+₹35
+
+05:50 pm
+
+Transaction ID T2503171750120978799405
+
+UTR No. 697893136277
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 17, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹162.75
+
+01:23 pm
+
+Transaction ID T2503171323098661294776
+
+UTR No. 406808600655
+
+Paid by
+
+XXXXXXXXXX79
+
+Page 6 of 13
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 17, 2025
+
+Paid to BALDEV BALIRAM ADE
+
+DEBIT
+
+₹325
+
+10:36 am
+
+Transaction ID T2503171036438333932644
+
+UTR No. 064152286273
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 16, 2025
+
+Paid to Zomato Online Order
+
+DEBIT
+
+₹253.30
+
+05:35 pm
+
+Transaction ID T2503161735417726718437
+
+UTR No. 769188333269
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 15, 2025
+
+Paid to SHRINIVAS SHIVAJI GUTTE
+
+DEBIT
+
+₹320
+
+11:54 pm
+
+Transaction ID T2503152354500450009754
+
+UTR No. 590427218153
+
+Paid by
+
+XXXXXX6371
+
+Mar 15, 2025
+
+Paid to Infinity Wines
+
+DEBIT
+
+₹2,020
+
+04:00 pm
+
+Transaction ID T2503151600381906305129
+
+UTR No. 787048092527
+
+Paid by
+
+XXXXXX6371
+
+Mar 15, 2025
+
+Paid to NAYON SK
+
+DEBIT
+
+₹300
+
+03:38 pm
+
+Transaction ID T2503151538453750811900
+
+UTR No. 037430611513
+
+Paid by
+
+XXXXXX6371
+
+Mar 14, 2025
+
+Paid to Vighnaharta Family Mart
+
+DEBIT
+
+₹174
+
+05:37 pm
+
+Transaction ID T2503141737518315016814
+
+UTR No. 203697520877
+
+Paid by
+
+XXXXXX6371
+
+Mar 14, 2025
+
+Paid to Infinity Wines
+
+DEBIT
+
+₹2,800
+
+12:40 pm
+
+Transaction ID T2503141240466217551862
+
+UTR No. 752361194352
+
+Paid by
+
+XXXXXX6371
+
+Mar 13, 2025
+
+Paid to KIRAN KARTIK REVATE
+
+DEBIT
+
+₹354
+
+07:52 pm
+
+Transaction ID T2503131952239525558297
+
+UTR No. 509327786574
+
+Paid by
+
+XXXXXX6371
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 7 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 13, 2025
+
+Paid to VR WINES
+
+DEBIT
+
+₹1,450
+
+06:18 pm
+
+Transaction ID T2503131818451459898282
+
+UTR No. 335742240036
+
+Paid by
+
+XXXXXX6371
+
+Mar 13, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹147
+
+12:52 pm
+
+Transaction ID T2503131252143406472358
+
+UTR No. 823862667008
+
+Paid by
+
+XXXXXX6371
+
+Mar 13, 2025
+
+Paid to UMAKANT GOVIND WAGHMODE
+
+DEBIT
+
+₹35
+
+10:52 am
+
+Transaction ID T2503131052436243175534
+
+UTR No. 318409259861
+
+Paid by
+
+XXXXXX6371
+
+Mar 12, 2025
+
+Paid to ZOMATO
+
+DEBIT
+
+₹446.30
+
+09:47 pm
+
+Transaction ID T2503122147048346454938
+
+UTR No. 392777834179
+
+Paid by
+
+XXXXXX6371
+
+Mar 12, 2025
+
+Paid to SOMNATH SURESH BUKKI
+
+DEBIT
+
+₹48
+
+06:26 pm
+
+Transaction ID T2503121826354293585614
+
+UTR No. 628556698489
+
+Paid by
+
+XXXXXX6371
+
+Mar 12, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹147
+
+01:33 pm
+
+Transaction ID T2503121333451303865531
+
+UTR No. 258783890807
+
+Paid by
+
+XXXXXX6371
+
+Mar 12, 2025
+
+Paid to Annasaneb Yashwant Devkate
+
+DEBIT
+
+₹45
+
+10:36 am
+
+Transaction ID T2503121036245015604384
+
+UTR No. 665415429081
+
+Paid by
+
+XXXXXX6371
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 8 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 12, 2025
+
+Electricity bill paid 31000149164
+
+DEBIT
+
+₹350
+
+02:11 am
+
+Transaction ID NX25031202115631483117931
+
+UTR No. 698794652851
+
+Bharat Connect Transaction ID PP015071BX0V9063Z974
+
+Paid by
+
+XXXXXX6371
+
+Mar 12, 2025
+
+Electricity bill paid 31000149146
+
+DEBIT
+
+₹130
+
+02:11 am
+
+Transaction ID NX25031202114186581893651
+
+UTR No. 950822478042
+
+Bharat Connect Transaction ID PP015071BX269063K610
+
+Paid by
+
+XXXXXX6371
+
+Mar 11, 2025
+
+Paid to Gusto
+
+DEBIT
+
+₹140
+
+10:25 pm
+
+Transaction ID T2503112225187352290499
+
+UTR No. 221101156253
+
+Paid by
+
+XXXXXX6371
+
+Mar 11, 2025
+
+Paid to Swiggy
+
+DEBIT
+
+₹343
+
+09:14 pm
+
+Transaction ID T2503112114373611374442
+
+UTR No. 549309231544
+
+Paid by
+
+XXXXXX6371
+
+Mar 11, 2025
+
+Paid to BLINKIT COMMERCE PRIVATE LIMITED
+
+DEBIT
+
+₹456
+
+06:42 pm
+
+Transaction ID T2503111842049966841641
+
+UTR No. 518553021354
+
+Paid by
+
+XXXXXX6371
+
+Mar 11, 2025
+
+Paid to RANAWARE SUSHIL SUDHIR
+
+DEBIT
+
+₹10
+
+06:00 pm
+
+Transaction ID T2503111800433042862123
+
+UTR No. 283723915701
+
+Paid by
+
+XXXXXX6371
+
+Mar 11, 2025
+
+Paid to COWRKS INDIA PRIVATE LIMITED
+
+DEBIT
+
+₹147
+
+01:42 pm
+
+Transaction ID T2503111342391923853816
+
+UTR No. 704008634855
+
+Paid by
+
+XXXXXX6371
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 9 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 11, 2025
+
+Paid to Femous burji center
+
+DEBIT
+
+₹45
+
+10:30 am
+
+Transaction ID T2503111030166640465500
+
+UTR No. 513418224078
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 11, 2025
+
+Paid to ANIKET SAMBHAJI KENDE
+
+DEBIT
+
+₹494
+
+12:36 am
+
+Transaction ID T2503110036330622707166
+
+UTR No. 691829126589
+
+Paid by
+
+XXXXXX6371
+
+Mar 10, 2025
+
+Paid to TFS 90310057 KOL KFC Domestic Departure
+
+DEBIT
+
+₹670
+
+07:40 pm
+
+Transaction ID T2503101940469263930306
+
+UTR No. 359095348072
+
+Paid by
+
+XXXXXX6371
+
+Mar 10, 2025
+
+Paid to MD RAHUL FAKIR
+
+DEBIT
+
+₹200
+
+07:07 pm
+
+Transaction ID T2503101907506253375420
+
+UTR No. 993316804802
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 10, 2025
+
+Payment to Tata Play Limited
+
+DEBIT
+
+₹249
+
+05:45 pm
+
+Transaction ID OLEX2503101745150144952880
+
+UTR No. 506911034033
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 10, 2025
+
+Paid to GULNAZ KHATUN
+
+DEBIT
+
+₹50
+
+12:58 am
+
+Transaction ID T2503100058344577826240
+
+UTR No. 238796004471
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 09, 2025
+
+Paid to Swiggy Liquor
+
+DEBIT
+
+₹1,295
+
+08:42 pm
+
+Transaction ID T2503092042503878515932
+
+UTR No. 022381200351
+
+Paid by
+
+XXXXXX6371
+
+Mar 09, 2025
+
+Paid to Fusion of Flavours 
+
+DEBIT
+
+₹180
+
+05:58 pm
+
+Transaction ID T2503091758506579973165
+
+UTR No. 822788628507
+
+Paid by
+
+XXXXXXXXXX79
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 10 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 08, 2025
+
+Paid to Saradindu Cloud
+
+DEBIT
+
+₹300
+
+11:02 pm
+
+Transaction ID T2503082302416002190327
+
+UTR No. 751828653335
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 08, 2025
+
+Paid to Somas Stop
+
+DEBIT
+
+₹18
+
+03:09 pm
+
+Transaction ID T2503081509333083432768
+
+UTR No. 403653678216
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 07, 2025
+
+Paid to Shashikala Gupta Sealdah Stall No 3
+
+DEBIT
+
+₹15
+
+04:24 pm
+
+Transaction ID T2503071624302224287236
+
+UTR No. 217116607059
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 07, 2025
+
+Paid to RAJESH DAS
+
+DEBIT
+
+₹200
+
+12:03 am
+
+Transaction ID T2503070003085700533321
+
+UTR No. 756775514456
+
+Paid by
+
+XXXXXX6371
+
+Mar 06, 2025
+
+Paid to Zomato Online Order
+
+DEBIT
+
+₹444.78
+
+11:52 pm
+
+Transaction ID T2503062352378336557645
+
+UTR No. 221213050146
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 06, 2025
+
+Paid to Zepto
+
+DEBIT
+
+₹288.90
+
+10:44 pm
+
+Transaction ID T2503062244408728357073
+
+UTR No. 127893324782
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 06, 2025
+
+Received from Saradindu Cloud
+
+CREDIT
+
+₹400
+
+10:44 pm
+
+Transaction ID T2503062244084168488768
+
+UTR No. 832920471188
+
+Credited to
+
+XXXXXXXXXX79
+
+Mar 06, 2025
+
+Paid to Avijit Saha
+
+DEBIT
+
+₹200
+
+12:19 am
+
+Transaction ID T2503060019102529301235
+
+UTR No. 989472887344
+
+Paid by
+
+XXXXXXXXXX79
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 11 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 05, 2025
+
+Paid to Md  Shahid
+
+DEBIT
+
+₹180
+
+09:49 pm
+
+Transaction ID T2503052149406943211194
+
+UTR No. 953886821294
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 03, 2025
+
+Paid to GOVIND YADAV
+
+DEBIT
+
+₹350
+
+09:05 pm
+
+Transaction ID T2503032105537036874687
+
+UTR No. 984244721527
+
+Paid by
+
+XXXXXX6371
+
+Mar 03, 2025
+
+Paid to Subash Prasad Yadav
+
+DEBIT
+
+₹290
+
+02:17 pm
+
+Transaction ID T2503031417008210964770
+
+UTR No. 442884881924
+
+Paid by
+
+XXXXXX6371
+
+Mar 02, 2025
+
+Paid to ZOMATO
+
+DEBIT
+
+₹329.28
+
+11:44 pm
+
+Transaction ID T2503022344089527534046
+
+UTR No. 797383806879
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 02, 2025
+
+Received from Shreyas
+
+CREDIT
+
+₹349
+
+12:56 pm
+
+Transaction ID T2503021256098681306619
+
+UTR No. 500262371967
+
+Credited to
+
+XXXXXXXXXX79
+
+Mar 02, 2025
+
+Paid to Zomato private Limited
+
+DEBIT
+
+₹472.75
+
+12:02 am
+
+Transaction ID T2503020002019944124586
+
+UTR No. 548782176823
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 01, 2025
+
+Paid to Subir Kumar Mondal
+
+DEBIT
+
+₹280
+
+09:37 pm
+
+Transaction ID T2503012137333814657606
+
+UTR No. 669119366348
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 01, 2025
+
+Paid to Debendra Sahu
+
+DEBIT
+
+₹31
+
+01:11 pm
+
+Transaction ID T2503011311493919084202
+
+UTR No. 629188672239
+
+Paid by
+
+XXXXXXXXXX79
+
+This is a system generated statement. For any queries, contact us at https://support.phonepe.com/statement.
+
+Page 12 of 13
+
+Date
+
+Transaction Details
+
+Type
+
+Amount
+
+Mar 01, 2025
+
+Paid to Rafiqule Islam
+
+DEBIT
+
+₹170
+
+12:42 pm
+
+Transaction ID T2503011242374471231327
+
+UTR No. 153334303010
+
+Paid by
+
+XXXXXXXXXX79
+
+Mar 01, 2025
+
+Payment to NETFLIX COM
+
+DEBIT
+
+₹199
+
+03:29 am
+
+Transaction ID OLEX2503010329560879103170
+
+UTR No. 100079943203
+
+Paid by
+
+XXXXXXXXXX79
+
+Page 13 of 13
+
+This is an automatically generated statement. Customer(s) are requested to immediately notify PhonePe in case
+of any errors in the statement at https://support.phonepe.com/statement and visit https://www.phonepe.com/
+terms-conditions/ for PhonePe Terms & Conditions and Privacy Policy.
+
+Disclaimer : Do not fall prey to fictitious offers of winning prizes, money circulation schemes and cheap funds,
+etc. through SMS, emails and calls. The contents of this email and document are confidential and intended for
+the recipient specified in this document. If you received this message by mistake, please inform PhonePe at
+https://support.phonepe.com/statement so that we can ensure the recipient's details are corrected.
+
+

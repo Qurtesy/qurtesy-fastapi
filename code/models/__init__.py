@@ -1,0 +1,119 @@
+import enum
+from datetime import datetime
+from sqlalchemy import Column, Boolean, Integer, String, Date, Float, Enum, ForeignKey, Text, Index
+from sqlalchemy.orm import relationship, declarative_base
+
+Base = declarative_base()
+
+
+class SectionEnum(str, enum.Enum):
+    EXPENSE = 'EXPENSE'
+    INCOME = 'INCOME'
+    TRANSFER = 'TRANSFER'
+    INVESTMENT = 'INVESTMENT'
+    LEND = 'LEND'
+    SPLIT = 'SPLIT'
+
+
+class Category(Base):
+    __tablename__ = "categories"
+    __table_args__ = (
+        Index('ix_categories_section', 'section'),
+        Index('ix_categories_value', 'value'),
+        {"schema": "finance"}
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    value = Column(String, nullable=False, unique=True)
+    emoji = Column(String)
+    section = Column(Enum(SectionEnum, name="section_enum", schema="finance"), nullable=False)
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    transactions_rel = relationship("Transaction", back_populates="category_rel")
+
+
+class Account(Base):
+    __tablename__ = "accounts"
+    __table_args__ = (
+        Index('ix_accounts_value', 'value'),
+        {"schema": "finance"}
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    value = Column(String, nullable=False, unique=True)
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    transactions_rel = relationship("Transaction", back_populates="account_rel")
+
+
+class Transaction(Base):
+    __tablename__ = "transactions"
+    __table_args__ = (
+        Index('ix_transactions_date', 'date'),
+        Index('ix_transactions_section', 'section'),
+        Index('ix_transactions_date_section', 'date', 'section'),
+        {"schema": "finance"}
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    date = Column(Date, nullable=False)
+    credit = Column(Boolean, nullable=False, default=False)
+    amount = Column(Float, nullable=False)
+    section = Column(Enum(SectionEnum, name="section_enum", schema="finance"), nullable=False)
+    category_id = Column("category", Integer, ForeignKey("finance.categories.id"), nullable=True)
+    account_id = Column("account", Integer, ForeignKey("finance.accounts.id"), nullable=True)
+    note = Column(Text, nullable=True)
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    category_rel = relationship("Category", back_populates="transactions_rel")
+    account_rel = relationship("Account", back_populates="transactions_rel")
+
+    def create(self):
+        self.created_date = datetime.now().date()
+        self.updated_date = datetime.now().date()
+        return self
+
+
+class Budget(Base):
+    __tablename__ = "budgets"
+    __table_args__ = (
+        Index('ix_budgets_category_month', 'category_id', 'month', 'year'),
+        {"schema": "finance"}
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    category_id = Column(Integer, ForeignKey("finance.categories.id"), nullable=False)
+    month = Column(Integer, nullable=False)  # 1-12
+    year = Column(Integer, nullable=False)
+    budgeted_amount = Column(Float, nullable=False)
+    spent_amount = Column(Float, nullable=False, default=0.0)
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    category_rel = relationship("Category")
+
+
+class RecurringTransaction(Base):
+    __tablename__ = "recurring_transactions"
+    __table_args__ = {"schema": "finance"}
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    amount = Column(Float, nullable=False)
+    section = Column(Enum(SectionEnum, name="section_enum", schema="finance"), nullable=False)
+    category_id = Column(Integer, ForeignKey("finance.categories.id"), nullable=True)
+    account_id = Column(Integer, ForeignKey("finance.accounts.id"), nullable=True)
+    frequency = Column(String, nullable=False)  # daily, weekly, monthly, yearly
+    start_date = Column(Date, nullable=False)
+    end_date = Column(Date, nullable=True)
+    is_active = Column(Boolean, nullable=False, default=True)
+    next_execution = Column(Date, nullable=False)
+    note = Column(Text, nullable=True)
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    category_rel = relationship("Category")
+    account_rel = relationship("Account")

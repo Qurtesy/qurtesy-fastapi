@@ -6,7 +6,7 @@ from fastapi import APIRouter, BackgroundTasks, Depends, File, UploadFile, Query
 from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from database import get_db
-from models import SectionEnum, CategoryGroup, Transaction
+from models import SectionEnum, Category, Transaction
 from utils.datetime import format_date
 from _whisper.transcribe import transcribe_audio_blob
 
@@ -50,8 +50,8 @@ async def transcribe(
         transcript = transcribe_audio_blob(blob_data, file.filename)
 
         category_group = (
-            db.query(CategoryGroup)
-            .filter(CategoryGroup.value == TRANSCRIPTION_CATEGORY)
+            db.query(Category)
+            .filter(Category.value == TRANSCRIPTION_CATEGORY)
             .first()
         )
         new_transaction = Transaction(

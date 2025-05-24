@@ -28,16 +28,6 @@ services:
     depends_on:
       - db
 
-  # dynamodb-local:
-  #   command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
-  #   image: "amazon/dynamodb-local:latest"
-  #   container_name: dynamodb-local
-  #   ports:
-  #     - "8000:8000"
-  #   volumes:
-  #     - "./docker/dynamodb:/home/dynamodblocal/data"
-  #   working_dir: /home/dynamodblocal
-
   code:
     container_name: qurtesy_code
     build: ./code
@@ -47,4 +37,5 @@ services:
       - db
     volumes:
       - ./db_dump:/code/db_dump
+      - ./statements:/code/statements
       - ./server_cache:/root/.cache

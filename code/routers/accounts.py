@@ -3,32 +3,10 @@ from typing import List, Dict, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import SectionEnum, AccountGroup, Account
+from models import SectionEnum, Account
 from schemas import AccountCreate, AccountUpdate
 
 router = APIRouter()
-
-@router.get("/account_groups/", response_model=List[Dict])
-async def read_account_groups(
-    db: Session = Depends(get_db)
-):
-    account_groups: list[AccountGroup] = (
-        db.query(AccountGroup)
-        .order_by(AccountGroup.id)
-        .all()
-    )
-    return [
-        {
-            "id": ag.id,
-            "value": ag.value,
-            "accounts": [
-                {
-                    "id": a.id,
-                    "value": a.value
-                } for a in ag.accounts_rel
-            ]
-        } for ag in account_groups
-    ]
 
 @router.get("/accounts/", response_model=List[Dict])
 async def read_accounts(

@@ -1,0 +1,703 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "Qurtesy Finance API v2.0",
+		"description": "Enhanced Finance Tracking API with Budget Management, Analytics, and Recurring Transactions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/api/health",
+					"host": ["{{base_url}}"],
+					"path": ["api", "health"]
+				}
+			}
+		},
+		{
+			"name": "Transactions",
+			"item": [
+				{
+					"name": "Get Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/transactions/?section=EXPENSE&yearmonth=2025-05&page=1&page_size=50",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", ""],
+							"query": [
+								{
+									"key": "section",
+									"value": "EXPENSE"
+								},
+								{
+									"key": "yearmonth",
+									"value": "2025-05"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "page_size",
+									"value": "50"
+								},
+								{
+									"key": "search",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "category_id",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "min_amount",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "max_amount",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Transaction by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/transactions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"24/05/2025\",\n  \"amount\": 100.50,\n  \"category_id\": 1,\n  \"account_id\": 1,\n  \"note\": \"Sample transaction\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/transactions/?section=EXPENSE",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", ""],
+							"query": [
+								{
+									"key": "section",
+									"value": "EXPENSE"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Transaction",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n \"amount\": 150.75,\n  \"note\": \"Updated transaction\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/transactions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Transaction",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/transactions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", "1"]
+						}
+					}
+				},
+				{
+					"name": "Bulk Create Transactions",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n  {\n    \"date\": \"24/05/2025\",\n    \"amount\": 50.00,\n    \"section\": \"EXPENSE\",\n    \"category_id\": 1,\n    \"account_id\": 1,\n    \"note\": \"Bulk transaction 1\"\n  },\n  {\n    \"date\": \"24/05/2025\",\n    \"amount\": 75.00,\n    \"section\": \"EXPENSE\",\n    \"category_id\": 2,\n    \"account_id\": 1,\n    \"note\": \"Bulk transaction 2\"\n  }\n]"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/transactions/bulk",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", "bulk"]
+						}
+					}
+				},
+				{
+					"name": "Transactions Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/transactions/summary?start_date=01/05/2025&end_date=31/05/2025",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", "summary"],
+							"query": [
+								{
+									"key": "start_date",
+									"value": "01/05/2025"
+								},
+								{
+									"key": "end_date",
+									"value": "31/05/2025"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Spending by Category",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/transactions/analytics/spending-by-category?yearmonth=2025-05&section=EXPENSE",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", "analytics", "spending-by-category"],
+							"query": [
+								{
+									"key": "yearmonth",
+									"value": "2025-05"
+								},
+								{
+									"key": "section",
+									"value": "EXPENSE"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Spending Trends",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/transactions/analytics/trends?months=6",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transactions", "analytics", "trends"],
+							"query": [
+								{
+									"key": "months",
+									"value": "6"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Categories",
+			"item": [
+				{
+					"name": "Get Categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categories/?section=EXPENSE",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categories", ""],
+							"query": [
+								{
+									"key": "section",
+									"value": "EXPENSE"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": \"🍔 Fast Food\",\n  \"emoji\": \"🍔\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categories/?section=EXPENSE",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categories", ""],
+							"query": [
+								{
+									"key": "section",
+									"value": "EXPENSE"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Category",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": \"🍔 Updated Fast Food\",\n  \"emoji\": \"🍔\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/categories/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categories", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/categories/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "categories", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "Get Accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/accounts/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "accounts", ""]
+						}
+					}
+				},
+				{
+					"name": "Create Account",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": \"HDFC Bank\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/accounts/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "accounts", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Account",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"value\": \"HDFC Bank - Updated\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/accounts/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "accounts", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/accounts/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "accounts", "1"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Budgets",
+			"item": [
+				{
+					"name": "Get Budgets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/budgets/?month=5&year=2025",
+							"host": ["{{base_url}}"],
+							"path": ["api", "budgets", ""],
+							"query": [
+								{
+									"key": "month",
+									"value": "5"
+								},
+								{
+									"key": "year",
+									"value": "2025"
+								},
+								{
+									"key": "category_id",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Budget by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/budgets/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "budgets", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Budget",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category_id\": 1,\n  \"month\": 5,\n  \"year\": 2025,\n  \"budgeted_amount\": 5000.00\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/budgets/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "budgets", ""]
+						}
+					}
+				},
+				{
+					"name": "Update Budget",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"budgeted_amount\": 6000.00\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/budgets/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "budgets", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Budget",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/budgets/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "budgets", "1"]
+						}
+					}
+				},
+				{
+					"name": "Budget Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/budgets/summary/2025/5",
+							"host": ["{{base_url}}"],
+							"path": ["api", "budgets", "summary", "2025", "5"]
+						}
+					}
+				},
+				{
+					"name": "Refresh Budget Spent Amounts",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/budgets/refresh-spent-amounts",
+							"host": ["{{base_url}}"],
+							"path": ["api", "budgets", "refresh-spent-amounts"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Recurring Transactions",
+			"item": [
+				{
+					"name": "Get Recurring Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/recurring-transactions/?is_active=true",
+							"host": ["{{base_url}}"],
+							"path": ["api", "recurring-transactions", ""],
+							"query": [
+								{
+									"key": "is_active",
+									"value": "true"
+								},
+								{
+									"key": "section",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Recurring Transaction by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/recurring-transactions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "recurring-transactions", "1"]
+						}
+					}
+				},
+				{
+					"name": "Create Recurring Transaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Monthly Rent\",\n  \"amount\": 15000.00,\n  \"category_id\": 1,\n  \"account_id\": 1,\n  \"frequency\": \"monthly\",\n  \"start_date\": \"01/05/2025\",\n  \"note\": \"Monthly rent payment\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/recurring-transactions/?section=EXPENSE",
+							"host": ["{{base_url}}"],
+							"path": ["api", "recurring-transactions", ""],
+							"query": [
+								{
+									"key": "section",
+									"value": "EXPENSE"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Update Recurring Transaction",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 16000.00,\n  \"note\": \"Updated monthly rent\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/recurring-transactions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "recurring-transactions", "1"]
+						}
+					}
+				},
+				{
+					"name": "Delete Recurring Transaction",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/recurring-transactions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "recurring-transactions", "1"]
+						}
+					}
+				},
+				{
+					"name": "Execute Pending Recurring Transactions",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/recurring-transactions/execute-pending",
+							"host": ["{{base_url}}"],
+							"path": ["api", "recurring-transactions", "execute-pending"]
+						}
+					}
+				},
+				{
+					"name": "Get Recurring Transactions Due Today",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/recurring-transactions/due-today",
+							"host": ["{{base_url}}"],
+							"path": ["api", "recurring-transactions", "due-today"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Transfers",
+			"item": [
+				{
+					"name": "Get Transfers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/transfers/?yearmonth=2025-05",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transfers", ""],
+							"query": [
+								{
+									"key": "yearmonth",
+									"value": "2025-05"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Transfer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"date\": \"24/05/2025\",\n  \"amount\": 1000.00,\n  \"from_account_id\": 1,\n  \"to_account_id\": 2,\n  \"note\": \"Transfer between accounts\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/transfers/",
+							"host": ["{{base_url}}"],
+							"path": ["api", "transfers", ""]
+						}
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		}
+	]
+}
