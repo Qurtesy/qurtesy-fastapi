@@ -32,8 +32,8 @@ def create_transfer(
         credit=False,
         amount=transaction.amount,
         section=SectionEnum.TRANSFER.name,
-        category_group=category.id,
-        account_group=transaction.from_account
+        category_id=category.id,
+        account_id=transaction.from_account_id
     ).create()
     db.add(debit_transaction)
     credit_transaction = Transaction(
@@ -41,8 +41,8 @@ def create_transfer(
         credit=True,
         amount=transaction.amount,
         section=SectionEnum.TRANSFER.name,
-        category_group=category.id,
-        account_group=transaction.to_account
+        category_id=category.id,
+        account_id=transaction.to_account_id
     ).create()
     db.add(credit_transaction)
     db.commit()
@@ -54,13 +54,13 @@ def create_transfer(
             "date": format_date(t.date),
             "amount": t.amount,
             "category_group": {
-                "id": t.category_groups_rel.id,
-                "emoji": t.category_groups_rel.emoji,
-                "value": t.category_groups_rel.value,
+                "id": t.category_rel.id,
+                "emoji": t.category_rel.emoji,
+                "value": t.category_rel.value,
             },
             "account": {
-                "id": t.account_groups_rel.id,
-                "value": t.account_groups_rel.value,
+                "id": t.account_rel.id,
+                "value": t.account_rel.value,
             }
         } for t in [debit_transaction, credit_transaction]
     ]
