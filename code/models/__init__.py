@@ -42,6 +42,7 @@ class Account(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     value = Column(String, nullable=False, unique=True)
+    balance = Column(Float, nullable=False, default=0.0)
     created_date = Column(Date, nullable=False, default=datetime.now)
     updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
 
