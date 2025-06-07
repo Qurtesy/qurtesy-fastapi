@@ -3,7 +3,7 @@ from typing import List, Dict
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import SplitTransaction, SplitParticipant, Account, Category
+from models import SplitTransaction, SplitParticipant, Account, Category, Profile
 from schemas import SplitTransactionCreate, SplitTransactionUpdate, SplitParticipantUpdate
 from utils.datetime import format_date
 
@@ -20,7 +20,7 @@ async def get_split_transactions(
         .options(
             joinedload(SplitTransaction.category_rel),
             joinedload(SplitTransaction.created_by_account_rel),
-            joinedload(SplitTransaction.participants_rel).joinedload(SplitParticipant.account_rel)
+            joinedload(SplitTransaction.participants_rel).joinedload(SplitParticipant.profile_rel)
         )
         .order_by(SplitTransaction.date.desc(), SplitTransaction.id.desc())
         .all()
@@ -30,15 +30,23 @@ async def get_split_transactions(
     for split in splits:
         participants = []
         for participant in split.participants_rel:
-            participants.append({
-                "id": participant.id,
-                "account": {
-                    "id": participant.account_rel.id,
-                    "value": participant.account_rel.value
-                },
-                "share_amount": participant.share_amount,
-                "is_paid": participant.is_paid
-            })
+            # Handle case where profile_rel might be None
+            if participant.profile_rel:
+                participants.append({
+                    "id": participant.id,
+                    "profile": {
+                        "id": participant.profile_rel.id,
+                        "name": participant.profile_rel.name,
+                        "email": participant.profile_rel.email,
+                        "is_self": participant.profile_rel.is_self
+                    },
+                    "share_amount": participant.share_amount,
+                    "is_paid": participant.is_paid
+                })
+            else:
+                # Log warning for missing profile and skip this participant
+                print(f"Warning: Split participant {participant.id} has no associated profile")
+                continue
         
         result.append({
             "id": split.id,
@@ -71,6 +79,12 @@ async def create_split_transaction(
 ):
     """Create a new split transaction"""
     try:
+        # Validate that all profile IDs exist
+        profile_ids = [p.profile_id for p in split_data.participants]
+        existing_profiles = db.query(Profile).filter(Profile.id.in_(profile_ids)).all()
+        if len(existing_profiles) != len(profile_ids):
+            raise HTTPException(status_code=400, detail="One or more profile IDs are invalid")
+        
         # Create the split transaction
         split_transaction = SplitTransaction(
             name=split_data.name,
@@ -90,9 +104,9 @@ async def create_split_transaction(
         for participant_data in split_data.participants:
             participant = SplitParticipant(
                 split_transaction_id=split_transaction.id,
-                account_id=participant_data.account_id,
+                profile_id=participant_data.profile_id,
                 share_amount=share_amount,
-                is_paid=(participant_data.account_id == split_data.created_by_account_id)  # Creator is automatically paid
+                is_paid=False  # All participants start as unpaid initially
             )
             db.add(participant)
         
@@ -124,7 +138,7 @@ async def get_split_transaction(
         .options(
             joinedload(SplitTransaction.category_rel),
             joinedload(SplitTransaction.created_by_account_rel),
-            joinedload(SplitTransaction.participants_rel).joinedload(SplitParticipant.account_rel)
+            joinedload(SplitTransaction.participants_rel).joinedload(SplitParticipant.profile_rel)
         )
         .filter(SplitTransaction.id == split_id)
         .first()
@@ -135,15 +149,23 @@ async def get_split_transaction(
     
     participants = []
     for participant in split.participants_rel:
-        participants.append({
-            "id": participant.id,
-            "account": {
-                "id": participant.account_rel.id,
-                "value": participant.account_rel.value
-            },
-            "share_amount": participant.share_amount,
-            "is_paid": participant.is_paid
-        })
+        # Handle case where profile_rel might be None
+        if participant.profile_rel:
+            participants.append({
+                "id": participant.id,
+                "profile": {
+                    "id": participant.profile_rel.id,
+                    "name": participant.profile_rel.name,
+                    "email": participant.profile_rel.email,
+                    "is_self": participant.profile_rel.is_self
+                },
+                "share_amount": participant.share_amount,
+                "is_paid": participant.is_paid
+            })
+        else:
+            # Log warning for missing profile and skip this participant
+            print(f"Warning: Split participant {participant.id} has no associated profile")
+            continue
     
     return {
         "id": split.id,

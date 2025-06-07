@@ -147,17 +147,37 @@ class SplitParticipant(Base):
     __tablename__ = "split_participants"
     __table_args__ = (
         Index('idx_split_participants_split_id', 'split_transaction_id'),
-        Index('idx_split_participants_account', 'account_id'),
+        Index('idx_split_participants_profile', 'profile_id'),
         {"schema": "finance"}
     )
 
     id = Column(Integer, primary_key=True, index=True)
     split_transaction_id = Column(Integer, ForeignKey("finance.split_transactions.id", ondelete="CASCADE"), nullable=False)
-    account_id = Column(Integer, ForeignKey("finance.accounts.id"), nullable=False)
+    profile_id = Column(Integer, ForeignKey("finance.profiles.id"), nullable=False)
     share_amount = Column(Float, nullable=False)
     is_paid = Column(Boolean, nullable=False, default=False)
     created_date = Column(Date, nullable=False, default=datetime.now)
     updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     split_transaction_rel = relationship("SplitTransaction", back_populates="participants_rel")
-    account_rel = relationship("Account")
+    profile_rel = relationship("Profile")
+
+
+class Profile(Base):
+    __tablename__ = "profiles"
+    __table_args__ = (
+        Index('ix_profiles_name', 'name'),
+        {"schema": "finance"}
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False, unique=True)
+    email = Column(String, nullable=True)
+    phone = Column(String, nullable=True)
+    avatar_url = Column(String, nullable=True)
+    default_account_id = Column(Integer, ForeignKey("finance.accounts.id"), nullable=True)
+    is_self = Column(Boolean, nullable=False, default=False)
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    default_account_rel = relationship("Account")

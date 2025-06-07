@@ -142,7 +142,7 @@ class RecurringTransactionUpdate(BaseModel):
 
 
 class SplitParticipantCreate(BaseModel):
-    account_id: int = Field(..., gt=0, description="Account ID of the participant")
+    profile_id: int = Field(..., gt=0, description="Profile ID of the participant")
 
 
 class SplitTransactionCreate(BaseModel):
@@ -187,3 +187,20 @@ class SplitTransactionUpdate(BaseModel):
 
 class SplitParticipantUpdate(BaseModel):
     is_paid: bool = Field(..., description="Whether the participant has paid their share")
+
+
+class ProfileCreate(BaseModel):
+    name: str = Field(..., description="Profile name")
+    email: Optional[str] = Field(None, description="Email address")
+    phone: Optional[str] = Field(None, description="Phone number")
+    avatar_url: Optional[str] = Field(None, description="Avatar image URL")
+    default_account_id: Optional[int] = Field(None, gt=0, description="Default account ID")
+    is_self: bool = Field(False, description="Whether this is your own profile")
+
+
+class ProfileUpdate(BaseModel):
+    name: Optional[str] = Field(None, description="Profile name")
+    email: Optional[str] = Field(None, description="Email address")
+    phone: Optional[str] = Field(None, description="Phone number")
+    avatar_url: Optional[str] = Field(None, description="Avatar image URL")
+    default_account_id: Optional[int] = Field(None, gt=0, description="Default account ID")
