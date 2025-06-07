@@ -8,6 +8,7 @@ from routers import (
     # transcribes
     budgets,
     recurring_transactions,
+    splits,
     # transcribes
 )
 from internal import admin
@@ -46,6 +47,7 @@ app.include_router(transactions.router, prefix="/api", tags=["transactions"])
 app.include_router(transfers.router, prefix="/api", tags=["transfers"])
 app.include_router(budgets.router, prefix="/api", tags=["budgets"])
 app.include_router(recurring_transactions.router, prefix="/api", tags=["recurring-transactions"])
+app.include_router(splits.router, prefix="/api", tags=["splits"])
 # app.include_router(transcribes.router, prefix="/api", tags=["transcribes"])
 
 @app.get("/")

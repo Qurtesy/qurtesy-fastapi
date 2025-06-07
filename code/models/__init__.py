@@ -118,3 +118,46 @@ class RecurringTransaction(Base):
 
     category_rel = relationship("Category")
     account_rel = relationship("Account")
+
+
+class SplitTransaction(Base):
+    __tablename__ = "split_transactions"
+    __table_args__ = (
+        Index('idx_split_transactions_date', 'date'),
+        Index('idx_split_transactions_created_by', 'created_by_account_id'),
+        {"schema": "finance"}
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, nullable=False)
+    total_amount = Column(Float, nullable=False)
+    date = Column(Date, nullable=False)
+    category_id = Column(Integer, ForeignKey("finance.categories.id"), nullable=True)
+    created_by_account_id = Column(Integer, ForeignKey("finance.accounts.id"), nullable=False)
+    note = Column(Text, nullable=True)
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    category_rel = relationship("Category")
+    created_by_account_rel = relationship("Account", foreign_keys=[created_by_account_id])
+    participants_rel = relationship("SplitParticipant", back_populates="split_transaction_rel", cascade="all, delete-orphan")
+
+
+class SplitParticipant(Base):
+    __tablename__ = "split_participants"
+    __table_args__ = (
+        Index('idx_split_participants_split_id', 'split_transaction_id'),
+        Index('idx_split_participants_account', 'account_id'),
+        {"schema": "finance"}
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    split_transaction_id = Column(Integer, ForeignKey("finance.split_transactions.id", ondelete="CASCADE"), nullable=False)
+    account_id = Column(Integer, ForeignKey("finance.accounts.id"), nullable=False)
+    share_amount = Column(Float, nullable=False)
+    is_paid = Column(Boolean, nullable=False, default=False)
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    split_transaction_rel = relationship("SplitTransaction", back_populates="participants_rel")
+    account_rel = relationship("Account")

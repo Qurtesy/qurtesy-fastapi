@@ -1,5 +1,5 @@
 from datetime import datetime, date
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel, Field, validator
 
 class CategoryCreate(BaseModel):
@@ -139,3 +139,51 @@ class RecurringTransactionUpdate(BaseModel):
             return datetime.strptime(value, "%d/%m/%Y").date()
         except ValueError:
             raise ValueError("End date format must be DD/MM/YYYY")
+
+
+class SplitParticipantCreate(BaseModel):
+    account_id: int = Field(..., gt=0, description="Account ID of the participant")
+
+
+class SplitTransactionCreate(BaseModel):
+    name: str = Field(..., description="Name/description of the split transaction")
+    total_amount: float = Field(..., gt=0, description="Total amount to be split")
+    date: str = Field(..., description="Transaction date in DD/MM/YYYY format")
+    category_id: Optional[int] = Field(None, gt=0, description="Category ID")
+    created_by_account_id: int = Field(..., gt=0, description="Account ID of who created/paid the transaction")
+    participants: List[SplitParticipantCreate] = Field(..., description="List of participants (including creator)")
+    note: Optional[str] = Field(None, description="Optional note")
+
+    @validator("date")
+    def parse_date(cls, value):
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Date format must be DD/MM/YYYY")
+
+    @validator("participants")
+    def validate_participants(cls, value):
+        if len(value) < 2:
+            raise ValueError("Split transaction must have at least 2 participants")
+        return value
+
+
+class SplitTransactionUpdate(BaseModel):
+    name: Optional[str] = Field(None, description="Name/description of the split transaction")
+    total_amount: Optional[float] = Field(None, gt=0, description="Total amount to be split")
+    date: Optional[str] = Field(None, description="Transaction date in DD/MM/YYYY format")
+    category_id: Optional[int] = Field(None, gt=0, description="Category ID")
+    note: Optional[str] = Field(None, description="Optional note")
+
+    @validator("date")
+    def parse_date(cls, value):
+        if value is None:
+            return value
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Date format must be DD/MM/YYYY")
+
+
+class SplitParticipantUpdate(BaseModel):
+    is_paid: bool = Field(..., description="Whether the participant has paid their share")
