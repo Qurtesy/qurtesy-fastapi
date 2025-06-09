@@ -1,0 +1,32 @@
+# Development Dockerfile for FastAPI application
+
+FROM python:3.12-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    git \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /code
+
+# Copy requirements
+COPY _requirements/ /code/_requirements/
+
+# Install dependencies (including dev dependencies)
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r /code/_requirements/dev.txt
+
+# Copy application code
+COPY . /code
+
+# Create directories
+RUN mkdir -p /code/db_dump /code/statements
+
+# Expose port
+EXPOSE 8085
+
+# Start application with hot reloading
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8085", "--reload", "--log-level", "debug"]

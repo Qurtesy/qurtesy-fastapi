@@ -181,3 +181,39 @@ class Profile(Base):
     updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
 
     default_account_rel = relationship("Account")
+
+
+class LendTransaction(Base):
+    __tablename__ = "lend_transactions"
+    __table_args__ = (
+        Index('idx_lend_transactions_date', 'date'),
+        Index('idx_lend_transactions_lender', 'lender_profile_id'),
+        Index('idx_lend_transactions_borrower', 'borrower_profile_id'),
+        {"schema": "finance"}
+    )
+
+    id = Column(Integer, primary_key=True, index=True)
+    amount = Column(Float, nullable=False)
+    date = Column(Date, nullable=False)
+    lender_profile_id = Column(Integer, ForeignKey("finance.profiles.id"), nullable=False)  # Who lent the money
+    borrower_profile_id = Column(Integer, ForeignKey("finance.profiles.id"), nullable=False)  # Who borrowed the money
+    category_id = Column(Integer, ForeignKey("finance.categories.id"), nullable=True)
+    account_id = Column(Integer, ForeignKey("finance.accounts.id"), nullable=True)  # Account used for lending
+    note = Column(Text, nullable=True)
+    is_repaid = Column(Boolean, nullable=False, default=False)
+    repaid_date = Column(Date, nullable=True)
+    
+    # Reference to split transaction if this lend was created from a split
+    related_split_transaction_id = Column(Integer, ForeignKey("finance.split_transactions.id"), nullable=True)
+    related_split_participant_id = Column(Integer, ForeignKey("finance.split_participants.id"), nullable=True)
+    
+    created_date = Column(Date, nullable=False, default=datetime.now)
+    updated_date = Column(Date, nullable=False, default=datetime.now, onupdate=datetime.now)
+
+    # Relationships
+    lender_profile_rel = relationship("Profile", foreign_keys=[lender_profile_id])
+    borrower_profile_rel = relationship("Profile", foreign_keys=[borrower_profile_id])
+    category_rel = relationship("Category")
+    account_rel = relationship("Account")
+    related_split_transaction_rel = relationship("SplitTransaction", foreign_keys=[related_split_transaction_id])
+    related_split_participant_rel = relationship("SplitParticipant", foreign_keys=[related_split_participant_id])

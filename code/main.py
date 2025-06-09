@@ -10,6 +10,7 @@ from routers import (
     recurring_transactions,
     splits,
     profiles,
+    lends,
     # transcribes
 )
 from internal import admin
@@ -50,6 +51,7 @@ app.include_router(budgets.router, prefix="/api", tags=["budgets"])
 app.include_router(recurring_transactions.router, prefix="/api", tags=["recurring-transactions"])
 app.include_router(splits.router, prefix="/api", tags=["splits"])
 app.include_router(profiles.router, prefix="/api", tags=["profiles"])
+app.include_router(lends.router, prefix="/api", tags=["lends"])
 # app.include_router(transcribes.router, prefix="/api", tags=["transcribes"])
 
 @app.get("/")

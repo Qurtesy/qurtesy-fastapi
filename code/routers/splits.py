@@ -3,7 +3,7 @@ from typing import List, Dict
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import SplitTransaction, SplitParticipant, Account, Category, Profile
+from models import SplitTransaction, SplitParticipant, Account, Category, Profile, LendTransaction
 from schemas import SplitTransactionCreate, SplitTransactionUpdate, SplitParticipantUpdate
 from utils.datetime import format_date
 
@@ -100,7 +100,18 @@ async def create_split_transaction(
         # Calculate even split amount
         share_amount = split_data.total_amount / len(split_data.participants)
         
-        # Create participants
+        # Get the account that created the split to find the lender profile
+        created_by_account = db.query(Account).filter(Account.id == split_data.created_by_account_id).first()
+        if not created_by_account:
+            raise HTTPException(status_code=400, detail="Created by account not found")
+        
+        # Find the self profile (lender) - the person who created the split
+        self_profile = db.query(Profile).filter(Profile.is_self == True).first()
+        if not self_profile:
+            raise HTTPException(status_code=400, detail="Self profile not found")
+        
+        # Create participants and corresponding lend records
+        created_participants = []
         for participant_data in split_data.participants:
             participant = SplitParticipant(
                 split_transaction_id=split_transaction.id,
@@ -109,6 +120,25 @@ async def create_split_transaction(
                 is_paid=False  # All participants start as unpaid initially
             )
             db.add(participant)
+            db.flush()  # Get participant ID
+            created_participants.append(participant)
+            
+            # Create lend record for participants who are not the self profile
+            profile = db.query(Profile).filter(Profile.id == participant_data.profile_id).first()
+            if profile and not profile.is_self:
+                lend_record = LendTransaction(
+                    amount=share_amount,
+                    date=split_data.date,
+                    lender_profile_id=self_profile.id,
+                    borrower_profile_id=participant_data.profile_id,
+                    category_id=split_data.category_id,
+                    account_id=split_data.created_by_account_id,
+                    note=f"From split: {split_data.name}",
+                    is_repaid=False,
+                    related_split_transaction_id=split_transaction.id,
+                    related_split_participant_id=participant.id
+                )
+                db.add(lend_record)
         
         db.commit()
         db.refresh(split_transaction)
@@ -116,7 +146,8 @@ async def create_split_transaction(
         return {
             "message": "Split transaction created successfully",
             "split_transaction_id": split_transaction.id,
-            "share_amount": share_amount
+            "share_amount": share_amount,
+            "lend_records_created": len([p for p in created_participants if not db.query(Profile).filter(Profile.id == p.profile_id).first().is_self])
         }
         
     except IntegrityError as e:
@@ -252,7 +283,23 @@ async def update_participant_payment_status(
     if not participant:
         raise HTTPException(status_code=404, detail="Participant not found")
     
+    # Update participant payment status
     participant.is_paid = participant_data.is_paid
+    
+    # Also update the corresponding lend record if it exists
+    lend_record = db.query(LendTransaction).filter(
+        LendTransaction.related_split_participant_id == participant_id
+    ).first()
+    
+    if lend_record:
+        lend_record.is_repaid = participant_data.is_paid
+        if participant_data.is_paid:
+            # Set repaid date to the split transaction date or today
+            split_transaction = db.query(SplitTransaction).filter(SplitTransaction.id == split_id).first()
+            lend_record.repaid_date = split_transaction.date if split_transaction else lend_record.date
+        else:
+            lend_record.repaid_date = None
+    
     db.commit()
     
     return {"message": "Participant payment status updated successfully"}
@@ -270,6 +317,12 @@ async def delete_split_transaction(
         raise HTTPException(status_code=404, detail="Split transaction not found")
     
     try:
+        # Delete related lend records first
+        db.query(LendTransaction).filter(
+            LendTransaction.related_split_transaction_id == split_id
+        ).delete()
+        
+        # Delete the split transaction (participants will be deleted by cascade)
         db.delete(split)
         db.commit()
         return {"message": "Split transaction deleted successfully"}

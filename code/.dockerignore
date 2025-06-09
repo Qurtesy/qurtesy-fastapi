@@ -1,0 +1,81 @@
+# Python cache and compiled files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+
+# Virtual environments
+.venv
+.env
+venv/
+env/
+ENV/
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# Documentation
+README.md
+docs/
+*.md
+
+# Testing
+.coverage
+.pytest_cache
+htmlcov/
+.tox/
+.nox/
+
+# Logs
+logs/
+*.log
+
+# Database files (will be mounted as volumes)
+db_dump/
+db_static/
+server_cache/
+statements/
+
+# Environment files
+.env.local
+.env.development
+.env.test
+.env.production
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Jupyter notebooks
+.ipynb_checkpoints
+
+# Machine learning models (if cached locally)
+models/
+*.pkl
+*.joblib

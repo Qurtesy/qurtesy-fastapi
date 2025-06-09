@@ -1,41 +1,113 @@
 volumes:
   qurtesy-data:
-
+  qurtesy-cache:
 
 networks:
   qurtesy-network:
     driver: bridge
 
 services:
+  # PostgreSQL Database
   db:
-    container_name: qurtesy_postgre
-    image: postgres
+    container_name: qurtesy_postgres
+    image: postgres:15-alpine
     restart: unless-stopped
     shm_size: 128mb
     ports:
-      - 5432:5432
+      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: example
+      POSTGRES_DB: qurtesy
+      POSTGRES_USER: postgres
     volumes:
-      - ./db_static:/var/lib/postgresql/data
-      - ./dataset:/docker-entrypoint-initdb.d
+      - qurtesy-data:/var/lib/postgresql/data
+      - ./dataset:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - qurtesy-network
+    profiles:
+      - dev
+      - prod
 
+  # Database Admin Interface
   adminer:
-    image: adminer
+    container_name: qurtesy_adminer
+    image: adminer:latest
     restart: unless-stopped
     ports:
-      - 8080:8080
+      - "8080:8080"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - qurtesy-network
+    profiles:
+      - dev
 
-  code:
-    container_name: qurtesy_code
-    build: ./code
+  # Development API Service
+  api-dev:
+    container_name: qurtesy_api_dev
+    build:
+      context: ./code
+      dockerfile: Dockerfile.dev
     ports:
       - "8085:8085"
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     volumes:
+      - ./code:/code
       - ./db_dump:/code/db_dump
       - ./statements:/code/statements
-      - ./server_cache:/root/.cache
+      - qurtesy-cache:/root/.cache
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgresql://postgres:example@db:5432/qurtesy
+    networks:
+      - qurtesy-network
+    profiles:
+      - dev
+
+  # Production API Service
+  api:
+    container_name: qurtesy_api
+    build:
+      context: ./code
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - "8085:8085"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./db_dump:/code/db_dump:ro
+      - ./statements:/code/statements:ro
+      - qurtesy-cache:/code/.cache
+    environment:
+      - ENVIRONMENT=production
+      - DATABASE_URL=postgresql://postgres:example@db:5432/qurtesy
+    restart: unless-stopped
+    networks:
+      - qurtesy-network
+    profiles:
+      - prod
+
+  # Redis Cache (optional, for production scaling)
+  redis:
+    container_name: qurtesy_redis
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - qurtesy-cache:/data
+    command: redis-server --appendonly yes
+    networks:
+      - qurtesy-network
+    profiles:
+      - prod-cache

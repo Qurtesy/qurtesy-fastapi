@@ -204,3 +204,62 @@ class ProfileUpdate(BaseModel):
     phone: Optional[str] = Field(None, description="Phone number")
     avatar_url: Optional[str] = Field(None, description="Avatar image URL")
     default_account_id: Optional[int] = Field(None, gt=0, description="Default account ID")
+
+
+class LendTransactionCreate(BaseModel):
+    amount: float = Field(..., gt=0, description="Amount being lent")
+    date: str = Field(..., description="Lend date in DD/MM/YYYY format")
+    borrower_profile_id: int = Field(..., gt=0, description="Profile ID of the borrower")
+    category_id: Optional[int] = Field(None, gt=0, description="Category ID")
+    account_id: Optional[int] = Field(None, gt=0, description="Account ID used for lending")
+    note: Optional[str] = Field(None, description="Optional note about the lend")
+
+    @validator("date")
+    def parse_date(cls, value):
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Date format must be DD/MM/YYYY")
+
+
+class LendTransactionUpdate(BaseModel):
+    amount: Optional[float] = Field(None, gt=0, description="Amount being lent")
+    date: Optional[str] = Field(None, description="Lend date in DD/MM/YYYY format")
+    borrower_profile_id: Optional[int] = Field(None, gt=0, description="Profile ID of the borrower")
+    category_id: Optional[int] = Field(None, gt=0, description="Category ID")
+    account_id: Optional[int] = Field(None, gt=0, description="Account ID used for lending")
+    note: Optional[str] = Field(None, description="Optional note about the lend")
+    is_repaid: Optional[bool] = Field(None, description="Whether the lend has been repaid")
+    repaid_date: Optional[str] = Field(None, description="Repayment date in DD/MM/YYYY format")
+
+    @validator("date")
+    def parse_date(cls, value):
+        if value is None:
+            return value
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Date format must be DD/MM/YYYY")
+
+    @validator("repaid_date")
+    def parse_repaid_date(cls, value):
+        if value is None:
+            return value
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Repaid date format must be DD/MM/YYYY")
+
+
+class LendRepaymentUpdate(BaseModel):
+    is_repaid: bool = Field(..., description="Whether the lend has been repaid")
+    repaid_date: Optional[str] = Field(None, description="Repayment date in DD/MM/YYYY format")
+
+    @validator("repaid_date")
+    def parse_repaid_date(cls, value):
+        if value is None:
+            return value
+        try:
+            return datetime.strptime(value, "%d/%m/%Y").date()
+        except ValueError:
+            raise ValueError("Repaid date format must be DD/MM/YYYY")
