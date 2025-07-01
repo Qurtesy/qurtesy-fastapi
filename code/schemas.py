@@ -14,6 +14,7 @@ class CategoryUpdate(BaseModel):
 
 class AccountCreate(BaseModel):
     value: str = Field(..., description="Account name (must be a meaningful text)")
+    balance: float = Field(..., description="Account balance (must be number)")
 
 
 class AccountUpdate(BaseModel):

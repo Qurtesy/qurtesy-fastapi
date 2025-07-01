@@ -2,6 +2,7 @@ volumes:
   qurtesy-data:
   qurtesy-cache:
 
+
 networks:
   qurtesy-network:
     driver: bridge
@@ -23,7 +24,7 @@ services:
       - qurtesy-data:/var/lib/postgresql/data
       - ./dataset:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -51,6 +52,7 @@ services:
   # Development API Service
   api-dev:
     container_name: qurtesy_api_dev
+    image: qurtesy_api_dev:v1.0
     build:
       context: ./code
       dockerfile: Dockerfile.dev
@@ -75,6 +77,7 @@ services:
   # Production API Service
   api:
     container_name: qurtesy_api
+    image: qurtesy_api:v1.0
     build:
       context: ./code
       dockerfile: Dockerfile
