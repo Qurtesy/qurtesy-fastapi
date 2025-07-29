@@ -5,10 +5,5 @@ psycopg2-binary
 pydantic
 python-dateutil
 python-dotenv
-openai-whisper @ git+https://github.com/openai/whisper.git@517a43ecd132a2089d85f4ebc044728a71d49f6e
-pydub
-torch
-torchaudio
-numpy
 pdfplumber
 pdfminer.six

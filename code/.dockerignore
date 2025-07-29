@@ -76,6 +76,5 @@ dist/
 .ipynb_checkpoints
 
 # Machine learning models (if cached locally)
-models/
 *.pkl
 *.joblib

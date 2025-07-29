@@ -53,18 +53,25 @@ def main():
     
     categories_to_create = [
         # Income categories for positive balance adjustments
-        ("INCOME", "Balance Adjustment", "⚖️"),
-        ("INCOME", "Account Reconciliation", "🔄"),
-        ("INCOME", "Found Money", "💰"),
+        ("INCOME", "Salary", "💰"),
+        ("INCOME", "Income Adjustment", "⚖️"),
         ("INCOME", "Interest Earned", "📈"),
         ("INCOME", "Refund", "💸"),
         
-        # Expense categories for negative balance adjustments  
-        ("EXPENSE", "Balance Adjustment", "⚖️"),
-        ("EXPENSE", "Account Reconciliation", "🔄"),
-        ("EXPENSE", "Bank Fees", "🏦"),
-        ("EXPENSE", "ATM Charges", "🏧"),
-        ("EXPENSE", "Correction", "✏️"),
+        # Expense categories for negative balance adjustments
+        ("EXPENSE", "Dining", "🍽"),
+        ("EXPENSE", "Groceries", "🛒"),
+        ("EXPENSE", "Shopping", "🛍️"),
+        ("EXPENSE", "Transit", "🚌"),
+        ("EXPENSE", "Entertainment", "📻"),
+        ("EXPENSE", "Bills & Fees", "💸"),
+        ("EXPENSE", "Gifts", "🎁"),
+        ("EXPENSE", "Beauty", "🌼"),
+        ("EXPENSE", "Work", "💼"),
+        ("EXPENSE", "Travel", "✈️"),
+        ("EXPENSE", "Expense Adjustment", "⚖️"),
+
+        ("TRANSFER", "Transfer (Default)", "🔀"),
     ]
     
     created_categories = []

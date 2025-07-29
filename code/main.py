@@ -1,5 +1,7 @@
+import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from routers import (
     accounts,
     categories,
@@ -16,25 +18,27 @@ from routers import (
 from internal import admin
 from database import init_db
 
+allowed_origin_urls = os.getenv("ALLOWED_ORIGIN_URLS")
+
 app = FastAPI(
     title="Qurtesy Finance API",
     description="Enhanced Finance Tracking API with Budget Management and Analytics",
     version="2.0.0"
 )
 
+print("IS PROD: ", os.getenv("PROD"))
+# Since Cloudflare handles SSL termination, this ensures
+# any redirects use HTTPS
+# app.add_middleware(HTTPSRedirectMiddleware)
+
 # Initialize database on startup
 @app.on_event("startup")
 async def startup_event():
     init_db()
 
-origins = [
-    "http://localhost:*",
-    "http://127.0.0.1:*",
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "http://127.0.0.1:5173",
-    "http://127.0.0.1:3000",
-]
+origins = allowed_origin_urls.split(",")
+
+print("ALLOWED_ORIGIN_URLS: ", origins)
 
 app.add_middleware(
     CORSMiddleware,

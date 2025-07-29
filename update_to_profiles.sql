@@ -27,7 +27,7 @@ CREATE INDEX IF NOT EXISTS idx_split_participants_profile ON finance.split_parti
 
 -- Create a default "self" profile (you can update this with your actual details)
 INSERT INTO finance.profiles (name, is_self, default_account_id) 
-VALUES ('Me', true, 1) 
+VALUES ('Me', true, 1)
 ON CONFLICT (name) DO NOTHING;
 
 -- Add some example profiles for testing

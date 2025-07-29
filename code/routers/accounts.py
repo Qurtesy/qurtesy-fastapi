@@ -1,8 +1,9 @@
+from datetime import datetime
 from fastapi import APIRouter, Depends, Query, Body, HTTPException
 from typing import List, Dict, Optional
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import func, case
+from sqlalchemy import func, case, or_, and_
 from database import get_db
 from models import SectionEnum, Account, Transaction
 from schemas import AccountCreate, AccountUpdate
@@ -145,3 +146,120 @@ def update_account_balance(account_id: int, balance_data: dict, db: Session = De
         "previous_balance": previous_balance,
         "balance_difference": account.balance - previous_balance
     }
+
+@router.post("/accounts/bulk")
+def bulk_create_accounts(
+    accounts: List[Dict] = Body(...),
+    db: Session = Depends(get_db)
+):
+    """Bulk create accounts from CSV data or array with uniqueness validation"""
+    created_accounts = []
+    all_accounts = []
+    errors = []
+
+    # Step 1: Check for duplicates within the batch itself
+    seen_values = set()
+    
+    valid_accounts = []
+    
+    for idx, account_data in enumerate(accounts):
+        try:
+            value = account_data.get('value')
+            
+            # Validate required fields
+            if not value:
+                errors.append({
+                    "row": idx + 1, 
+                    "error": "Missing required fields: value"
+                })
+                continue
+            
+            # Add to seen sets
+            seen_values.add(value)
+            
+            # Add to valid accounts for database check
+            valid_accounts.append({
+                'index': idx,
+                'data': account_data
+            })
+            
+        except Exception as e:
+            errors.append({"row": idx + 1, "error": f"Data validation error: {str(e)}"})
+    
+    # Step 2: Check against existing accounts in database (bulk query)
+    if valid_accounts:
+        # Extract values for bulk query
+        values_to_check = [cat['data']['value'] for cat in valid_accounts]
+        
+        # Single query to check existing values
+        existing_results = db.query(Account.value, Account.id)\
+            .filter(Account.value.in_(values_to_check))\
+            .all()
+        for value, id in existing_results:
+            all_accounts.append({
+                'id': id,
+                'value': value
+            })
+        existing_values = set(
+            row[0] for row in existing_results
+        )
+        
+        # Step 3: Validate each account against database
+        final_valid_accounts = []
+        
+        for acc in valid_accounts:
+            idx = acc['index']
+            account_data = acc['data']
+            value = account_data['value']
+            
+            # Check if value already exists in database
+            if value in existing_values:
+                errors.append({
+                    "row": idx + 1,
+                    "error": f"Value '{value}' already exists in database"
+                })
+                continue
+            
+            final_valid_accounts.append(account_data)
+    
+    # Step 4: Create valid accounts
+    for account_data in final_valid_accounts:
+        try:
+            new_account = Account(
+                value=account_data.get('value'),
+                created_date=datetime.now().date(),
+                updated_date=datetime.now().date()
+            )
+            
+            db.add(new_account)
+            created_accounts.append(new_account)
+            
+        except Exception as e:
+            errors.append({
+                "row": "unknown", 
+                "error": f"Database insertion error: {str(e)}"
+            })
+    
+    # Step 5: Commit transaction
+    try:
+        if created_accounts:
+            db.commit()
+            # Refresh all created accounts
+            for account in created_accounts:
+                db.refresh(account)
+        all_accounts.extend(created_accounts)
+        return {
+            "message": f"Successfully created {len(created_accounts)} accounts",
+            "created_count": len(created_accounts),
+            "total_submitted": len(accounts),
+            "errors_count": len(errors),
+            "errors": errors,
+            "accounts": all_accounts
+        }
+        
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=400, 
+            detail=f"Bulk insert failed during commit: {str(e)}"
+        )
