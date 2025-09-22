@@ -1,22 +1,19 @@
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from routers import (
-    accounts,
-    categories,
-    transactions,
+    front,
+    transaction,
     transfers,
     # transcribes
     budgets,
     recurring_transactions,
     splits,
-    profiles,
     lends,
     # transcribes
 )
-from internal import admin
 from database import init_db
+from routers import account, category, profile
 
 allowed_origin_urls = os.getenv("ALLOWED_ORIGIN_URLS")
 
@@ -36,7 +33,7 @@ print("IS PROD: ", os.getenv("PROD"))
 async def startup_event():
     init_db()
 
-origins = allowed_origin_urls.split(",")
+origins = allowed_origin_urls.split(",") if allowed_origin_urls else []
 
 print("ALLOWED_ORIGIN_URLS: ", origins)
 
@@ -49,31 +46,15 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(accounts.router, prefix="/api", tags=["accounts"])
-app.include_router(categories.router, prefix="/api", tags=["categories"])
-app.include_router(transactions.router, prefix="/api", tags=["transactions"])
+app.include_router(account.router, prefix="/api", tags=["accounts"])
+app.include_router(category.router, prefix="/api", tags=["categories"])
+app.include_router(transaction.router, prefix="/api", tags=["transactions"])
 app.include_router(transfers.router, prefix="/api", tags=["transfers"])
 app.include_router(budgets.router, prefix="/api", tags=["budgets"])
 app.include_router(recurring_transactions.router, prefix="/api", tags=["recurring-transactions"])
 app.include_router(splits.router, prefix="/api", tags=["splits"])
-app.include_router(profiles.router, prefix="/api", tags=["profiles"])
+app.include_router(profile.router, prefix="/api", tags=["profiles"])
 app.include_router(lends.router, prefix="/api", tags=["lends"])
-# app.include_router(transcribes.router, prefix="/api", tags=["transcribes"])
-
-@app.get("/")
-async def root():
-    return {
-        "message": "Welcome to Qurtesy Finance API v2.0!",
-        "features": [
-            "Enhanced Transaction Management",
-            "Budget Tracking",
-            "Recurring Transactions",
-            "Analytics & Reporting",
-            "Advanced Search & Filtering",
-            "Bulk Operations"
-        ],
-        "documentation": "/docs"
-    }
 
 @app.get("/api/health")
 async def health_check():
@@ -82,3 +63,26 @@ async def health_check():
         "version": "2.0.0",
         "timestamp": "2025-05-24T00:00:00Z"
     }
+
+@app.api_route("/api/{path:path}", methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"])
+async def api_not_found(request: Request, path: str):
+    return {
+        "message": "API endpoint not found",
+        "path": f"/api/{path}",
+        "method": request.method,
+        "available_endpoints": [
+            "/api/health",
+            "/api/accounts/*",
+            "/api/categories/*",
+            "/api/transactions/*",
+            "/api/transfers/*",
+            "/api/budgets/*",
+            "/api/recurring-transactions/*",
+            "/api/splits/*",
+            "/api/profiles/*",
+            "/api/lends/*"
+        ]
+    }
+
+# Include React frontend router LAST (catch-all)
+app.include_router(front.router, tags=["frontend"])

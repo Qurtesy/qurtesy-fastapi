@@ -3,7 +3,10 @@ from typing import List, Dict
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import LendTransaction, Account, Category, Profile
+from models import LendTransaction
+from models.account import Account
+from models.category import Category
+from models.profile import Profile
 from schemas import LendTransactionCreate, LendTransactionUpdate, LendRepaymentUpdate
 from utils.datetime import format_date
 
@@ -54,12 +57,12 @@ async def get_lend_transactions(
             },
             "category": {
                 "id": lend.category_rel.id,
-                "value": lend.category_rel.value,
+                "name": lend.category_rel.name,
                 "emoji": lend.category_rel.emoji
             } if lend.category_rel else None,
             "account": {
                 "id": lend.account_rel.id,
-                "value": lend.account_rel.value
+                "name": lend.account_rel.name
             } if lend.account_rel else None,
             "note": lend.note,
             "is_repaid": lend.is_repaid,
@@ -174,12 +177,12 @@ async def get_lend_transaction(
         },
         "category": {
             "id": lend.category_rel.id,
-            "value": lend.category_rel.value,
+            "name": lend.category_rel.name,
             "emoji": lend.category_rel.emoji
         } if lend.category_rel else None,
         "account": {
             "id": lend.account_rel.id,
-            "value": lend.account_rel.value
+            "name": lend.account_rel.name
         } if lend.account_rel else None,
         "note": lend.note,
         "is_repaid": lend.is_repaid,

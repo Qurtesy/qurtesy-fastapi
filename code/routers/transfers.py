@@ -1,14 +1,11 @@
-from fastapi import APIRouter, Depends, Query, Body, HTTPException
-from typing import List, Dict, Optional
-from datetime import date, datetime
-import calendar
-from pydantic import BaseModel
-from sqlalchemy import and_, desc, func
+from fastapi import APIRouter, Depends, Body
+from typing import List, Dict
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import Category, Transaction, SectionEnum
-from schemas import TransferCreate
+from models import PersonalSectionEnum
+from models.category import Category
+from models.transaction import Transaction
+from schemas.transfer import TransferCreate
 from utils.datetime import format_date
 
 router = APIRouter()
@@ -24,14 +21,14 @@ def create_transfer(
 ):
     category = (
         db.query(Category)
-        .filter(Category.value == TRANSFER_CATEGORY)
+        .filter(Category.name == TRANSFER_CATEGORY)
         .first()
     )
     debit_transaction = Transaction(
         date=transaction.date,
         credit=False,
         amount=transaction.amount,
-        section=SectionEnum.TRANSFER.name,
+        section=PersonalSectionEnum.TRANSFER.name,
         category_id=category.id,
         account_id=transaction.from_account_id
     ).create()
@@ -40,7 +37,7 @@ def create_transfer(
         date=transaction.date,
         credit=True,
         amount=transaction.amount,
-        section=SectionEnum.TRANSFER.name,
+        section=PersonalSectionEnum.TRANSFER.name,
         category_id=category.id,
         account_id=transaction.to_account_id
     ).create()
@@ -56,11 +53,11 @@ def create_transfer(
             "category_group": {
                 "id": t.category_rel.id,
                 "emoji": t.category_rel.emoji,
-                "value": t.category_rel.value,
+                "name": t.category_rel.name,
             },
             "account": {
                 "id": t.account_rel.id,
-                "value": t.account_rel.value,
+                "name": t.account_rel.name,
             }
         } for t in [debit_transaction, credit_transaction]
     ]

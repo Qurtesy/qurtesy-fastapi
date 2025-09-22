@@ -56,21 +56,14 @@ logs/
 *.log
 
 # Database files (will be mounted as volumes)
-db_dump/
-db_static/
+*.db
 server_cache/
-statements/
 
 # Environment files
 .env.local
 .env.development
 .env.test
 .env.production
-
-# Build artifacts
-build/
-dist/
-*.egg-info/
 
 # Jupyter notebooks
 .ipynb_checkpoints

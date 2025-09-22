@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, Query, Body, HTTPException
 from typing import List, Dict, Optional
-from datetime import date, datetime
+from datetime import datetime
 from sqlalchemy import and_, func
 from sqlalchemy.orm import Session, joinedload
-from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import Budget, Category, Transaction, SectionEnum
+from models import Budget, PersonalSectionEnum
+from models.transaction import Transaction
 from schemas import BudgetCreate, BudgetUpdate
 
 router = APIRouter()
@@ -34,7 +34,7 @@ def get_budgets(
             "id": budget.id,
             "category": {
                 "id": budget.category_rel.id,
-                "value": budget.category_rel.value,
+                "name": budget.category_rel.name,
                 "emoji": budget.category_rel.emoji
             },
             "month": budget.month,
@@ -60,7 +60,7 @@ def get_budget(budget_id: int, db: Session = Depends(get_db)):
         "id": budget.id,
         "category": {
             "id": budget.category_rel.id,
-            "value": budget.category_rel.value,
+            "name": budget.category_rel.name,
             "emoji": budget.category_rel.emoji
         },
         "month": budget.month,
@@ -70,8 +70,8 @@ def get_budget(budget_id: int, db: Session = Depends(get_db)):
         "remaining_amount": budget.budgeted_amount - budget.spent_amount,
         "percentage_used": (budget.spent_amount / budget.budgeted_amount * 100) if budget.budgeted_amount > 0 else 0,
         "is_over_budget": budget.spent_amount > budget.budgeted_amount,
-        "created_date": budget.created_date,
-        "updated_date": budget.updated_date
+        "created_at": budget.created_at,
+        "updated_at": budget.updated_at
     }
 
 
@@ -98,7 +98,7 @@ def create_budget(budget: BudgetCreate = Body(...), db: Session = Depends(get_db
                         Transaction.category_id == budget.category_id,
                         func.extract('month', Transaction.date) == budget.month,
                         func.extract('year', Transaction.date) == budget.year,
-                        Transaction.section == SectionEnum.EXPENSE
+                        Transaction.section == PersonalSectionEnum.EXPENSE
                     )).scalar()
     
     new_budget = Budget(
@@ -164,7 +164,7 @@ def refresh_budget_spent_amounts(db: Session = Depends(get_db)):
                             Transaction.category_id == budget.category_id,
                             func.extract('month', Transaction.date) == budget.month,
                             func.extract('year', Transaction.date) == budget.year,
-                            Transaction.section == SectionEnum.EXPENSE
+                            Transaction.section == PersonalSectionEnum.EXPENSE
                         )).scalar()
         
         if budget.spent_amount != spent_amount:
@@ -210,7 +210,7 @@ def get_budget_summary(year: int, month: int, db: Session = Depends(get_db)):
                 "id": budget.id,
                 "category": {
                     "id": budget.category_rel.id,
-                    "value": budget.category_rel.value,
+                    "name": budget.category_rel.name,
                     "emoji": budget.category_rel.emoji
                 },
                 "budgeted_amount": budget.budgeted_amount,

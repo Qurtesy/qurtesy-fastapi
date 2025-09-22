@@ -3,7 +3,9 @@ from typing import List, Dict
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import IntegrityError
 from database import get_db
-from models import SplitTransaction, SplitParticipant, Account, Category, Profile, LendTransaction
+from models import SplitTransaction, SplitParticipant, LendTransaction
+from models.account import Account
+from models.profile import Profile
 from schemas import SplitTransactionCreate, SplitTransactionUpdate, SplitParticipantUpdate
 from utils.datetime import format_date
 
@@ -55,12 +57,12 @@ async def get_split_transactions(
             "date": format_date(split.date),
             "category": {
                 "id": split.category_rel.id,
-                "value": split.category_rel.value,
+                "name": split.category_rel.name,
                 "emoji": split.category_rel.emoji
             } if split.category_rel else None,
             "created_by_account": {
                 "id": split.created_by_account_rel.id,
-                "value": split.created_by_account_rel.value
+                "name": split.created_by_account_rel.name
             },
             "participants": participants,
             "note": split.note,
@@ -205,12 +207,12 @@ async def get_split_transaction(
         "date": format_date(split.date),
         "category": {
             "id": split.category_rel.id,
-            "value": split.category_rel.value,
+            "name": split.category_rel.name,
             "emoji": split.category_rel.emoji
         } if split.category_rel else None,
         "created_by_account": {
             "id": split.created_by_account_rel.id,
-            "value": split.created_by_account_rel.value
+            "name": split.created_by_account_rel.name
         },
         "participants": participants,
         "note": split.note

@@ -18,15 +18,15 @@ CREATE TYPE finance.section_enum AS ENUM (
 
 CREATE TABLE finance.categories (
     id SERIAL PRIMARY KEY,
-    value TEXT NOT NULL,
+    name TEXT NOT NULL,
     emoji TEXT,
     section finance.section_enum NOT NULL,
-    UNIQUE (value),
-    created_date DATE NOT NULL,
-    updated_date DATE NOT NULL
+    UNIQUE (name),
+    created_at DATE NOT NULL,
+    updated_at DATE NOT NULL
 );
 
-INSERT INTO finance.categories (value, emoji, section, created_date, updated_date) VALUES
+INSERT INTO finance.categories (name, emoji, section, created_at, updated_at) VALUES
     ('Food','🍟','EXPENSE', NOW(), NOW()),
     ('Education','📘','EXPENSE', NOW(), NOW()),
     ('Transports','🚃','EXPENSE', NOW(), NOW()),
@@ -40,13 +40,13 @@ INSERT INTO finance.categories (value, emoji, section, created_date, updated_dat
 
 CREATE TABLE finance.accounts (
     id SERIAL PRIMARY KEY,
-    value TEXT NOT NULL,
-    UNIQUE (value),
-    created_date DATE NOT NULL,
-    updated_date DATE NOT NULL
+    name TEXT NOT NULL,
+    UNIQUE (name),
+    created_at DATE NOT NULL,
+    updated_at DATE NOT NULL
 );
 
-INSERT INTO finance.accounts (value, created_date, updated_date) VALUES
+INSERT INTO finance.accounts (name, created_at, updated_at) VALUES
     ('Cash', NOW(), NOW()),
     ('Accounts', NOW(), NOW()),
     ('Cards', NOW(), NOW()),
@@ -61,8 +61,8 @@ CREATE TABLE finance.transactions (
     category INTEGER,
     account INTEGER,
     note TEXT,
-    created_date DATE NOT NULL,
-    updated_date DATE NOT NULL,
+    created_at DATE NOT NULL,
+    updated_at DATE NOT NULL,
     FOREIGN KEY(category) REFERENCES finance.categories(id),
     FOREIGN KEY(account) REFERENCES finance.accounts(id)
 )

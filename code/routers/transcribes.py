@@ -51,7 +51,7 @@ async def transcribe(
 
         category_group = (
             db.query(Category)
-            .filter(Category.value == TRANSCRIPTION_CATEGORY)
+            .filter(Category.name == TRANSCRIPTION_CATEGORY)
             .first()
         )
         new_transaction = Transaction(

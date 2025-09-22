@@ -2,10 +2,11 @@ from fastapi import APIRouter, Depends, Query, Body, HTTPException
 from typing import List, Dict, Optional
 from datetime import date, datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from sqlalchemy import and_, func, or_
+from sqlalchemy import and_, or_
 from sqlalchemy.orm import Session, joinedload
 from database import get_db
-from models import RecurringTransaction, Category, Account, Transaction, SectionEnum
+from models import RecurringTransaction, PersonalSectionEnum
+from models.transaction import Transaction
 from schemas import RecurringTransactionCreate, RecurringTransactionUpdate
 
 router = APIRouter()
@@ -30,7 +31,7 @@ def calculate_next_execution(start_date: date, frequency: str) -> date:
 @router.get("/recurring-transactions/", response_model=List[Dict])
 def get_recurring_transactions(
     is_active: Optional[bool] = Query(None, description="Filter by active status"),
-    section: Optional[SectionEnum] = Query(None, description="Filter by section"),
+    section: Optional[PersonalSectionEnum] = Query(None, description="Filter by section"),
     db: Session = Depends(get_db)
 ):
     query = db.query(RecurringTransaction).options(
@@ -53,12 +54,12 @@ def get_recurring_transactions(
             "section": rt.section,
             "category": {
                 "id": rt.category_rel.id,
-                "value": rt.category_rel.value,
+                "name": rt.category_rel.name,
                 "emoji": rt.category_rel.emoji
             } if rt.category_rel else None,
             "account": {
                 "id": rt.account_rel.id,
-                "value": rt.account_rel.value
+                "name": rt.account_rel.name
             } if rt.account_rel else None,
             "frequency": rt.frequency,
             "start_date": rt.start_date.strftime("%d/%m/%Y"),
@@ -87,12 +88,12 @@ def get_recurring_transaction(recurring_id: int, db: Session = Depends(get_db)):
         "section": rt.section,
         "category": {
             "id": rt.category_rel.id,
-            "value": rt.category_rel.value,
+            "name": rt.category_rel.name,
             "emoji": rt.category_rel.emoji
         } if rt.category_rel else None,
         "account": {
             "id": rt.account_rel.id,
-            "value": rt.account_rel.value
+            "name": rt.account_rel.name
         } if rt.account_rel else None,
         "frequency": rt.frequency,
         "start_date": rt.start_date.strftime("%d/%m/%Y"),
@@ -100,14 +101,14 @@ def get_recurring_transaction(recurring_id: int, db: Session = Depends(get_db)):
         "next_execution": rt.next_execution.strftime("%d/%m/%Y"),
         "is_active": rt.is_active,
         "note": rt.note,
-        "created_date": rt.created_date,
-        "updated_date": rt.updated_date
+        "created_at": rt.created_at,
+        "updated_at": rt.updated_at
     }
 
 
 @router.post("/recurring-transactions/", response_model=Dict)
 def create_recurring_transaction(
-    section: SectionEnum = Query(..., description="Transaction section"),
+    section: PersonalSectionEnum = Query(..., description="Transaction section"),
     recurring: RecurringTransactionCreate = Body(...),
     db: Session = Depends(get_db)
 ):
@@ -210,7 +211,7 @@ def execute_pending_recurring_transactions(db: Session = Depends(get_db)):
             # Create the actual transaction
             new_transaction = Transaction(
                 date=today,
-                credit=True if rt.section in [SectionEnum.INCOME, SectionEnum.INVESTMENT] else False,
+                credit=True if rt.section in [PersonalSectionEnum.INCOME, PersonalSectionEnum.INVESTMENT] else False,
                 amount=rt.amount,
                 section=rt.section,
                 category_id=rt.category_id,
@@ -274,12 +275,12 @@ def get_due_today(db: Session = Depends(get_db)):
             "section": rt.section,
             "category": {
                 "id": rt.category_rel.id,
-                "value": rt.category_rel.value,
+                "name": rt.category_rel.name,
                 "emoji": rt.category_rel.emoji
             } if rt.category_rel else None,
             "account": {
                 "id": rt.account_rel.id,
-                "value": rt.account_rel.value
+                "name": rt.account_rel.name
             } if rt.account_rel else None,
             "frequency": rt.frequency,
             "next_execution": rt.next_execution.strftime("%d/%m/%Y"),

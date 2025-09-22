@@ -1,0 +1,200 @@
+[
+    {
+        "name": "common",
+        "fields": [
+            {
+                "name": "id",
+                "type": "INTEGER",
+                "required": true,
+                "attrs": "PRIMARY KEY AUTOINCREMENT"
+            },
+            {
+                "name": "created_at",
+                "type": "TIMESTAMP",
+                "required": true,
+                "attrs": "DEFAULT CURRENT_TIMESTAMP"
+            },
+            {
+                "name": "updated_at",
+                "type": "TIMESTAMP",
+                "required": true,
+                "attrs": "DEFAULT CURRENT_TIMESTAMP"
+            },
+            {
+                "name": "sync_status",
+                "type": "TEXT",
+                "required": true,
+                "attrs": "CHECK (sync_status IN ('pending', 'synced', 'failed')) DEFAULT 'pending'"
+            },
+            {
+                "name": "deleted",
+                "type": "INTEGER",
+                "required": true,
+                "attrs": "DEFAULT 0"
+            }
+        ]
+    },
+    {
+        "name": "accounts",
+        "fields": [
+            {
+                "name": "name",
+                "type": "TEXT",
+                "required": true,
+                "attrs": "UNIQUE"
+            },
+            {
+                "name": "balance",
+                "type": "DECIMAL(10,2)",
+                "required": true,
+                "attrs": "DEFAULT 0"
+            }
+        ]
+    },
+    {
+        "name": "categories",
+        "fields": [
+            {
+                "name": "name",
+                "type": "TEXT",
+                "required": true,
+                "attrs": "UNIQUE"
+            },
+            {
+                "name": "emoji",
+                "type": "TEXT"
+            },
+            {
+                "name": "type",
+                "type": "TEXT",
+                "required": true,
+                "attrs": "CHECK (type IN ('expense', 'income'))"
+            }
+        ]
+    },
+    {
+        "name": "transactions",
+        "fields": [
+            {
+                "name": "type",
+                "type": "TEXT",
+                "required": true,
+                "attrs": "CHECK (type IN ('expense', 'income', 'transfer', 'lending', 'split'))"
+            },
+            {
+                "name": "amount",
+                "type": "DECIMAL(10,2)",
+                "required": true
+            },
+            {
+                "name": "category_id",
+                "type": "INTEGER"
+            },
+            {
+                "name": "account_id",
+                "type": "INTEGER",
+                "required": true
+            },
+            {
+                "name": "transfer_account_id",
+                "type": "INTEGER"
+            },
+            {
+                "name": "counterparty",
+                "type": "TEXT"
+            },
+            {
+                "name": "note",
+                "type": "TEXT"
+            },
+            {
+                "name": "date",
+                "type": "TIMESTAMP",
+                "attrs": "DEFAULT CURRENT_TIMESTAMP"
+            },
+            {
+                "name": "recurring_rule",
+                "type": "TEXT"
+            },
+            {
+                "name": "parent_id",
+                "type": "INTEGER"
+            }
+        ]
+    },
+    {
+        "name": "messages",
+        "fields": [
+            {
+                "name": "command",
+                "type": "TEXT",
+                "required": true
+            },
+            {
+                "name": "is_agent",
+                "type": "INTEGER",
+                "attrs": "DEFAULT 0"
+            },
+            {
+                "name": "transaction_id",
+                "type": "INTEGER"
+            },
+            {
+                "name": "transaction_type",
+                "type": "INTEGER",
+                "attrs": "CHECK (transaction_type IN ('expense', 'income', 'transfer', 'lending', 'split'))"
+            },
+            {
+                "name": "category_id",
+                "type": "INTEGER"
+            },
+            {
+                "name": "account_id",
+                "type": "INTEGER",
+                "required": true
+            }
+        ]
+    },
+    {
+        "name": "profiles",
+        "fields": [
+            {
+                "name": "name",
+                "type": "TEXT",
+                "required": true,
+                "attrs": "UNIQUE"
+            },
+            {
+                "name": "email",
+                "type": "TEXT",
+                "attrs": "UNIQUE"
+            },
+            {
+                "name": "phone",
+                "type": "TEXT",
+                "attrs": "UNIQUE"
+            },
+            {
+                "name": "avatar_url",
+                "type": "TEXT"
+            },
+            {
+                "name": "default_account_id",
+                "type": "INTEGER"
+            }
+        ]
+    },
+    {
+        "name": "config",
+        "fields": [
+            {
+                "name": "default_profile_id",
+                "type": "INTEGER"
+            },
+            {
+                "name": "default_account_id",
+                "type": "INTEGER"
+            }
+        ]
+    }
+]

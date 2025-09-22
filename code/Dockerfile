@@ -15,6 +15,8 @@ WORKDIR /code
 
 # Copy requirements first for better caching
 COPY _requirements/ /code/_requirements/
+# Copy schema.json file
+COPY ../../schema.json /code/schema.json
 
 # Create virtual environment and install dependencies
 RUN python -m venv /opt/venv
@@ -42,25 +44,24 @@ WORKDIR /code
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
+# Set default port (can be overridden with environment variable)
+ENV PORT=2517
+
 # Copy application code
 COPY . /code
 
 # Create necessary directories and set permissions
-RUN mkdir -p /code/db_dump /code/statements && \
-    chown -R qurtesy:qurtesy /code
+RUN chown -R qurtesy:qurtesy /code
 
 # Switch to non-root user
 USER qurtesy
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:8085/docs')" || exit 1
-
-# Expose port
-EXPOSE 8085
+    CMD python -c "import requests; requests.get('http://localhost:${PORT}/docs')" || exit 1
 
 # Start application with optimized settings for production
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8085", "--workers", "4", "--access-log"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT} --workers 4 --access-log"]
 
 # Development stage
 FROM builder AS development
@@ -68,11 +69,11 @@ FROM builder AS development
 # Install development dependencies
 RUN pip install --no-cache-dir -r /code/_requirements/dev.txt
 
+# Set default port (can be overridden with environment variable)
+ENV PORT=2517
+
 # Copy application code
 COPY . /code
 
-# Expose port
-EXPOSE 8085
-
 # Start application with hot reloading for development
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8085", "--reload", "--log-level", "debug"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT} --reload --log-level debug"]

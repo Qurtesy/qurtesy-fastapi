@@ -10,7 +10,7 @@ import json
 # Configuration
 API_BASE_URL = "http://localhost:8085"  # Qurtesy Finance API port
 
-def create_category(section, value, emoji):
+def create_category(section, name, emoji):
     """Create a category via the API"""
     url = f"{API_BASE_URL}/api/categories/"
     
@@ -20,8 +20,8 @@ def create_category(section, value, emoji):
         if check_response.status_code == 200:
             existing_categories = check_response.json()
             for cat in existing_categories:
-                if cat['value'] == value:
-                    print(f"✓ Category '{value}' already exists in {section}")
+                if cat['name'] == name:
+                    print(f"✓ Category '{name}' already exists in {section}")
                     return cat
     except Exception as e:
         print(f"Warning: Could not check existing categories: {e}")
@@ -31,19 +31,19 @@ def create_category(section, value, emoji):
         response = requests.post(
             url,
             params={"section": section},
-            json={"value": value, "emoji": emoji}
+            json={"name": name, "emoji": emoji}
         )
         
         if response.status_code == 200:
             category = response.json()
-            print(f"✓ Created category: {emoji} {value} ({section})")
+            print(f"✓ Created category: {emoji} {name} ({section})")
             return category
         else:
-            print(f"✗ Failed to create category '{value}': {response.text}")
+            print(f"✗ Failed to create category '{name}': {response.text}")
             return None
             
     except Exception as e:
-        print(f"✗ Error creating category '{value}': {e}")
+        print(f"✗ Error creating category '{name}': {e}")
         return None
 
 def main():
@@ -76,8 +76,8 @@ def main():
     
     created_categories = []
     
-    for section, value, emoji in categories_to_create:
-        category = create_category(section, value, emoji)
+    for section, name, emoji in categories_to_create:
+        category = create_category(section, name, emoji)
         if category:
             created_categories.append(category)
     

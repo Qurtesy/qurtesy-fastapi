@@ -14,19 +14,18 @@ WORKDIR /code
 
 # Copy requirements
 COPY _requirements/ /code/_requirements/
+# Copy schema.json file
+COPY schema.json /code/schema.json
 
 # Install dependencies (including dev dependencies)
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r /code/_requirements/dev.txt
 
+# Set default port (can be overridden with environment variable)
+ENV PORT=2517
+
 # Copy application code
 COPY . /code
 
-# Create directories
-RUN mkdir -p /code/db_dump /code/statements
-
-# Expose port
-EXPOSE 8085
-
 # Start application with hot reloading
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8085", "--reload", "--log-level", "debug"]
+CMD ["sh", "-c", "uvicorn main:app --host 0.0.0.0 --port ${PORT} --reload --log-level debug"]
