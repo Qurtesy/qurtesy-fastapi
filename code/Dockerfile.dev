@@ -21,6 +21,8 @@ COPY schema.json /code/schema.json
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r /code/_requirements/dev.txt
 
+RUN python -m spacy download en_core_web_trf
+
 # Set default port (can be overridden with environment variable)
 ENV PORT=2517
 

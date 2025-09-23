@@ -7,3 +7,4 @@ python-dateutil
 python-dotenv
 pdfplumber
 pdfminer.six
+spacy

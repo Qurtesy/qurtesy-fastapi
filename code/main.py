@@ -10,10 +10,13 @@ from routers import (
     recurring_transactions,
     splits,
     lends,
-    # transcribes
+    # transcribes,
+    account,
+    category,
+    profile,
+    transaction_parser
 )
 from database import init_db
-from routers import account, category, profile
 
 allowed_origin_urls = os.getenv("ALLOWED_ORIGIN_URLS")
 
@@ -55,6 +58,7 @@ app.include_router(recurring_transactions.router, prefix="/api", tags=["recurrin
 app.include_router(splits.router, prefix="/api", tags=["splits"])
 app.include_router(profile.router, prefix="/api", tags=["profiles"])
 app.include_router(lends.router, prefix="/api", tags=["lends"])
+app.include_router(transaction_parser.router, prefix="/api", tags=["transaction-parser"])
 
 @app.get("/api/health")
 async def health_check():

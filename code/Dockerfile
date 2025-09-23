@@ -26,6 +26,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r /code/_requirements/main.txt
 
+RUN python -m spacy download en_core_web_sm
+
 # Production stage
 FROM python:3.12-slim AS production
 
