@@ -7,4 +7,9 @@ python-dateutil
 python-dotenv
 pdfplumber
 pdfminer.six
+
+pandas
+numpy
 spacy
+scikit-learn
+joblib
