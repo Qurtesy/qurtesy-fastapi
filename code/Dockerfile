@@ -39,9 +39,6 @@ RUN apt-get update && apt-get install -y \
 # Create non-root user for security
 RUN groupadd -r qurtesy && useradd -r -g qurtesy qurtesy
 
-# Set working directory
-WORKDIR /code
-
 # Copy virtual environment from builder stage
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"

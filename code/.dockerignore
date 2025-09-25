@@ -69,5 +69,4 @@ server_cache/
 .ipynb_checkpoints
 
 # Machine learning models (if cached locally)
-*.pkl
 *.joblib
